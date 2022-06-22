@@ -562,8 +562,8 @@ class ChequeWriteController extends Controller
             // $this->db->where('status', 0);
             // $this->db->limit(1);
             // $query = $this->db->get('cheque_number_maintain');
-            $query = ChequeNumberMaintain::where('account_no', $bankData->id)->where('status', 0)->first();
-            if ($query->num_rows() > 0) {
+            $row = ChequeNumberMaintain::where('account_no', $bankData->id)->where('status', 0)->first();
+            if ($row) {
                 echo $query->cheque_no;
             } else {
                 echo '0';
