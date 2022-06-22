@@ -280,7 +280,7 @@
             </div>
             <div class="col-md-2">
                 <label>Select Bank Account:</label>
-                <select id="bankacount" class="form-control" onchange="getBankNextChequedNO();">
+                <select id="bankacount" class="form-control" @if ($package_manage->cheque_number_list==1) onchange="getBankNextChequedNO();" @endif>
                     <option value="">None</option>
                     @foreach($get_bankacount as $bankacount)
                     <option
@@ -342,7 +342,7 @@
 			</div>
 			<div class="col-md-2">
 				<label>Cheque No:</label>
-				<input type="text" name="chequeNo" id="chequeNo" onkeyup="getchaqudata();" class="form-control" value="" @if ($package_manage->cheque_number_list==1) readonly @endif>
+				<input type="text" name="chequeNo" id="chequeNo" onkeyup="getchaqudata();" class="form-control" value="" >
 			</div>
 			<div class="col-md-2">
 				<label>Date & Time :</label>
