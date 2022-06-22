@@ -283,6 +283,7 @@
 
 <script>
     $('.payment_modal').on('shown.bs.modal', function (e) {
+        alert();
         if ($('#payment_filter_date_range').length == 1) {
             $('#payment_filter_date_range').daterangepicker(
                 dateRangeSettings,
