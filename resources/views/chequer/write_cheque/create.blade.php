@@ -1599,7 +1599,33 @@ function paytemfetch(id,chaqueid){
 		console.log("complete");
 	});
 }
-
+function getBankNextChequedNO(){
+			var bankacounts = $("#bankacount :selected").val();
+			if(bankacounts){
+				$.ajax({
+					url: "{{action('Chequer\ChequeWriteController@getNextChequedNO')}}",
+					type: 'post',
+					data: {bankacount: bankacounts},
+					success:function(data){
+						if(data > 0){
+							if(data.length == 1){
+								$("#chequeNo").val('00'+data);
+							}else if(data.length == 2){
+								$("#chequeNo").val('0'+data);
+							}else{
+								$("#chequeNo").val(data);
+							}
+							$("#chequeNo").attr("style", "pointer-events: none;");
+							$("#chequeNo").attr("readonly","readonly");
+						}else{
+							$("#chequeNo").val("");
+							$("#chequeNo").removeAttr("style");
+							$("#chequeNo").removeAttr("readonly");
+						}
+					}
+				});
+			}
+		}
 function addsufix(){
 	var checkBox = document.getElementById("addsuffix");
 	var checkBox1 = document.getElementById("addprifix");
@@ -1988,33 +2014,7 @@ function addsufix(){
             //else
 				// $('#mynumber').prop('readonly',false);
 		});
-		function getBankNextChequedNO(){
-			var bankacounts = $("#bankacount :selected").val();
-			if(bankacounts){
-				$.ajax({
-					url: "{{action('Chequer\ChequeWriteController@getNextChequedNO')}}",
-					type: 'post',
-					data: {bankacount: bankacounts},
-					success:function(data){
-						if(data > 0){
-							if(data.length == 1){
-								$("#chequeNo").val('00'+data);
-							}else if(data.length == 2){
-								$("#chequeNo").val('0'+data);
-							}else{
-								$("#chequeNo").val(data);
-							}
-							$("#chequeNo").attr("style", "pointer-events: none;");
-							$("#chequeNo").attr("readonly","readonly");
-						}else{
-							$("#chequeNo").val("");
-							$("#chequeNo").removeAttr("style");
-							$("#chequeNo").removeAttr("readonly");
-						}
-					}
-				});
-			}
-		}
+		
 		getBankNextChequedNO();
 		$('#myText').select2();
 		$('#purchase_id').select2();
