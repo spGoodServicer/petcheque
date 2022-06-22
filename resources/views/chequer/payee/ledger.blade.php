@@ -228,7 +228,7 @@ $(document).ready(function(){
     
     var openingPrice = <?=$opening_total?>;
     var openingType = '<?=$opening_type?>';
-    var balanceDue = <?=$ledger_details['beginning_balance']?>;
+    var balanceDue = $ledger_details['beginning_balance'];
     if(openingType == 'credit') {
          openingPrice = 0;
      }
