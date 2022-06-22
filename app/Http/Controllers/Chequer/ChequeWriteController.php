@@ -241,6 +241,7 @@ class ChequeWriteController extends Controller
                     $inputs['document'] = $this->transactionUtil->uploadFile($request, 'document', 'documents');
 
                     $tp = TransactionPayment::create($inputs);
+                    AccountTransaction::updateAccountTransaction($tp, $transaction->type);
                     if($request->paymentFor=='purchases'){
                         $accountPayable = Account::where('account_number','201')->first();
                         if($accountPayable){

@@ -177,8 +177,9 @@ class ManagePayeeController extends Controller
         $transaction_amount =  request()->transaction_amount;
         
         if (request()->ajax()) {
+            
             $dataQuery = ContactLedger::where('contact_id', $contact_id);
-            $dataQuery->select(DB::raw('DATE_FORMAT(contact_ledgers.operation_date, "%d/%M/%Y") AS operation_date'));
+            $dataQuery->select(DB::raw('DATE_FORMAT(contact_ledgers.operation_date, "%d/%m/%Y") AS operation_date'));
             return Datatables::of($dataQuery)->make(true);
             exit;
         }

@@ -204,14 +204,14 @@
                         {!! Form::label('payment_filter_date_range', __('report.date_range') . ':') !!}
                         {!! Form::text('payment_filter_date_range', null, ['placeholder' =>
                         __('lang_v1.select_a_date_range'), 'class'
-                        => 'form-control payment_filter_date_range', 'readonly']); !!}
+                        => 'form-control','id'=>'payment_filter_date_range', 'readonly']); !!}
                     </div>
                 </div>
                 @if($transaction->type == 'property_sell')
                 <div class="col-sm-3">
                     <div class="form-group">
                         {!! Form::label('on_account_of', __('property::lang.on_account_of') . ':*') !!}
-                        {!! Form::select('on_account_of', $on_account_ofs, null, ['class' => 'form-control select2',
+                        {!! Form::select('on_account_of', $on_account_ofs, null, ['class' => 'form-control select2','id'=>'on_account_of',
                         'placeholder' => __('lang_v1.all')]) !!}
 
                     </div>
@@ -220,7 +220,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         {!! Form::label('receipt_no', __('lang_v1.receipt_no') . ':*') !!}
-                        {!! Form::select('receipt_no', $receipt_no, null, ['class' => 'form-control select2',
+                        {!! Form::select('receipt_no', $receipt_no, null, ['class' => 'form-control select2','id'=>'receipt_no'
                         'placeholder' => __('lang_v1.all')]) !!}
 
                     </div>
@@ -228,7 +228,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         {!! Form::label('payment_method', __('property::lang.payment_method') . ':*') !!}
-                        {!! Form::select('payment_method', $payment_types, null, ['class' => 'form-control select2',
+                        {!! Form::select('payment_method', $payment_types, null, ['class' => 'form-control select2','id'=>'payment_method',
                         'placeholder' => __('lang_v1.all')]) !!}
 
                     </div>
@@ -236,7 +236,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         {!! Form::label('user_id', __('lang_v1.users') . ':*') !!}
-                        {!! Form::select('user_id', $users, null, ['class' => 'form-control select2',
+                        {!! Form::select('user_id', $users, null, ['class' => 'form-control select2','id'=>'user_id',
                         'placeholder' => __('lang_v1.all')]) !!}
 
                     </div>
