@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Chequer;
 use App\Currency;
 use App\Account;
 use App\Chequer\ChequeNumberMaintain;
+use App\Chequer\ChequeNumber;
 use App\Chequer\ChequerBankAccount;
 use App\Chequer\ChequerCurrency;
 use App\Chequer\ChequerDefaultSetting;
@@ -370,7 +371,7 @@ class ChequeWriteController extends Controller
                     'status' => 1
                 );
                 // $this->Constant_model->updateChequeStatus($cheque_status, $cheque_no_for_update);
-                ChequeNumberMaintain::where('cheque_no', $cheque_no_for_update)->update($cheque_status);
+                // ChequeNumberMaintain::where('cheque_no', $cheque_no_for_update)->update($cheque_status);
                 // }
             }
 
