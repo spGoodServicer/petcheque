@@ -191,8 +191,10 @@
         if ( $.fn.DataTable.isDataTable('#view_payment_table') ) {
             $('#view_payment_table').DataTable().destroy();
         }
-        view_payment_table.destroy();
-            $('#payment_filter_date_range').data('daterangepicker').remove()
+            view_payment_table.destroy();
+
+            if($('#payment_filter_date_range').data('daterangepicker'))
+                $('#payment_filter_date_range').data('daterangepicker').remove()
         })
     </script>
     @php
