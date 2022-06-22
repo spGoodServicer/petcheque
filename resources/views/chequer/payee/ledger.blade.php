@@ -155,14 +155,14 @@
                     <thead>
                     <tr class="row-border">
                             <th>@lang('lang_v1.date')</th>
-                            <th>@lang('purchase.ref_no')</th>
+                            <!--th>@lang('purchase.ref_no')</th>
                             <th>@lang('lang_v1.type')</th>
                             <th>@lang('sale.location')</th>
                             <th>@lang('sale.payment_status')</th>
                             <th>@lang('account.debit')</th>
                             <th>@lang('account.credit')</th>
                             <th>@lang('lang_v1.balance')</th>
-                            <th>@lang('lang_v1.payment_method')</th>
+                            <th>@lang('lang_v1.payment_method')</th-->
                     </tr>
                     </thead>
                     <tbody>
@@ -170,14 +170,14 @@
                             // $balance = $ledger_details['balance']??$ledger_details['beginning_balance'];
                             // $balance = $ledger_details['bf_balance'];
                         @endphp
-                        <tr>
+                        <!--tr>
                             <td class="row-border"></td>
                             <td colspan="6" class="row-border">B/F Balance</td>
                             <td class="row-border">
                                 {{-- {{number_format($ledger_details['bf_balance'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
                             </td>
                             <td class="row-border"></td>
-                        </tr>
+                        </tr-->
                     </tbody>
                 </table>
             </div>
