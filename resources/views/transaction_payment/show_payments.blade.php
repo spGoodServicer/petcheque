@@ -306,6 +306,7 @@
                 url: '{{action("TransactionPaymentController@getPaymentDatatable", $id)}}',
                 data: function(d) {
                     if ($('#payment_filter_date_range').val() && $('#payment_filter_date_range').length == 1) {
+                        console.log($('#payment_filter_date_range').data('daterangepicker'));
                         d.start_date = $('#payment_filter_date_range').data('daterangepicker').startDate.format('YYYY-MM-DD');
                         d.end_date = $('#payment_filter_date_range').data('daterangepicker').endDate.format('YYYY-MM-DD');
                     }
