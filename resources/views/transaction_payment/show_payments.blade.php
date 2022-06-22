@@ -283,7 +283,6 @@
 
 <script>
     $('.payment_modal').on('shown.bs.modal', function (e) {
-        alert();
         if ($('#payment_filter_date_range').length == 1) {
             $('#payment_filter_date_range').daterangepicker(
                 dateRangeSettings,
@@ -307,7 +306,13 @@
                 url: '{{action("TransactionPaymentController@getPaymentDatatable", $id)}}',
                 data: function(d) {
                     if ($('#payment_filter_date_range').val() && $('#payment_filter_date_range').length == 1) {
-                        console.log($('#payment_filter_date_range').data('daterangepicker'));
+                        $('#payment_filter_date_range').daterangepicker(
+                            dateRangeSettings,
+                            function (start, end) {
+                                $('#payment_filter_date_range').val(start.format(moment_date_format) + ' ~ ' + end.format(moment_date_format));
+                            
+                            }
+                        );
                         d.start_date = $('#payment_filter_date_range').data('daterangepicker').startDate.format('YYYY-MM-DD');
                         d.end_date = $('#payment_filter_date_range').data('daterangepicker').endDate.format('YYYY-MM-DD');
                     }
