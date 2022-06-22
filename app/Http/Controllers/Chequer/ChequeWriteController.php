@@ -564,7 +564,7 @@ class ChequeWriteController extends Controller
             // $query = $this->db->get('cheque_number_maintain');
             $row = ChequeNumber::where('business_id', $business_id)->where('account_no', $bankData->id)->first();
             if ($row) {
-                echo $query->cheque_no;
+                echo $row->reference_no;
             } else {
                 echo '0';
             }
