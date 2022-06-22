@@ -1,0 +1,8 @@
+[20-Jan-2022 16:15:02 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Database\Eloquent\Model' not found in /home/vimi400/public_html/petold/app/Account.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/vimi400/public_html/petold/app/Account.php on line 10
+[20-Jan-2022 16:15:54 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Auth\User' not found in /home/vimi400/public_html/petold/app/User.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/vimi400/public_html/petold/app/User.php on line 14
