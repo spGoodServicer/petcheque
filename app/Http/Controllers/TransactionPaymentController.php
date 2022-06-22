@@ -492,43 +492,43 @@ class TransactionPaymentController extends Controller
 
             ->where('transaction_id', $id)->select('transaction_payments.*');
 
-        if (!empty(request()->start_date) && !empty(request()->end_date)) {
+        // if (!empty(request()->start_date) && !empty(request()->end_date)) {
 
-            $payments_query->whereDate('paid_on', '>=', request()->start_date);
+        //     $payments_query->whereDate('paid_on', '>=', request()->start_date);
 
-            $payments_query->whereDate('paid_on', '<=', request()->end_date);
+        //     $payments_query->whereDate('paid_on', '<=', request()->end_date);
 
-        }
+        // }
 
-        if (!empty(request()->method)) {
+        // if (!empty(request()->method)) {
 
-            $payments_query->where('method', request()->method);
+        //     $payments_query->where('method', request()->method);
 
-        }
+        // }
 
-        if (!empty(request()->receipt_no)) {
+        // if (!empty(request()->receipt_no)) {
 
-            $payments_query->where('invoice_no', request()->receipt_no);
+        //     $payments_query->where('invoice_no', request()->receipt_no);
 
-        }
+        // }
 
-        if (!empty(request()->payment_option)) {
+        // if (!empty(request()->payment_option)) {
 
-            $payments_query->where('payment_option_id', request()->payment_option);
+        //     $payments_query->where('payment_option_id', request()->payment_option);
 
-        }
+        // }
 
-        if (!empty(request()->user_id)) {
+        // if (!empty(request()->user_id)) {
 
-            $payments_query->where('created_by', request()->user_id);
+        //     $payments_query->where('created_by', request()->user_id);
 
-        }
+        // }
 
-        if (!empty(request()->user_id)) {
+        // if (!empty(request()->user_id)) {
 
-            $payments_query->where('created_by', request()->user_id);
+        //     $payments_query->where('created_by', request()->user_id);
 
-        }
+        // }
 
         return Datatables::of($payments_query)
 
