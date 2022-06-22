@@ -207,7 +207,7 @@ class ChequeWriteController extends Controller
                         'cheque_number' => $request->cheque_no,
                         'bank_account_number' => null
                     ];
-                    $inputs['paid_on'] = $this->transactionUtil->uf_date(date("d/m/Y H:i"), true);
+                    $inputs['paid_on'] = $this->transactionUtil->uf_date($request->cheque_date, false);
                     $inputs['transaction_id'] = $transaction->id;
                     $inputs['amount'] = $this->transactionUtil->num_uf($inputs['amount']);
                     $inputs['created_by'] = auth()->user()->id;
