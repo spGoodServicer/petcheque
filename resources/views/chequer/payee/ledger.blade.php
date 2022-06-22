@@ -47,7 +47,7 @@
             </div>
             <div class="col-md-2 col-xs-12"></div>
             <div class="col-md-4 col-xs-12" style="margin-top: -14px;">
-                @if($contact->type == 'customer') <span class="text-red" style="font-size: 36px;"> @lang('contact.customer'): {{$contact->name}} </span> @endif
+                
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@ $(document).ready(function(){
             }
         },
         columns: [
-            { data: 'operation_date', name: 'contact_ledgers.operation_date'  }
+            { data: 'operation_date', name: 'operation_date'  }
         ]
     });
 });

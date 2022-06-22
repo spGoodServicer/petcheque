@@ -178,7 +178,7 @@ class ManagePayeeController extends Controller
         
         if (request()->ajax()) {
             $dataQuery = ContactLedger::where('contact_id', $contact_id);
-            $dataQuery->select('contact_ledgers.operation_date');
+            $dataQuery->select('DATE_FORMAT(contact_ledgers.operation_date, "%d/%M/%Y") AS operation_date');
             return Datatables::of($dataQuery)->make(true);
             exit;
         }
