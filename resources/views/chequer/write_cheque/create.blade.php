@@ -680,9 +680,9 @@ function printpayname(){
     }else{
         $("#purchse_bill_no_label").text("Bill Number:");
         if(paymentType=='new_payment')
-            $("#purchase_id_label").text("Select Purchase Order:");
+            $("#purchase_id_label").text("No Purchase order");    
         else
-            $("#purchase_id_label").text("No Purchase order");
+            $("#purchase_id_label").text("Select Purchase Order:");    
     }
     
     // $("#purchse_bill_no").removeAttr('readonly');
