@@ -218,7 +218,7 @@ $(document).ready(function(){
             }
         },
         columns: [
-            { data: 'transaction_date', name: 'transactions.transaction_date'  }
+            { data: 'operation_date', name: 'contact_ledgers.operation_date'  }
         ]
     });
 });

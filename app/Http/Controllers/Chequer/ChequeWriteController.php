@@ -248,22 +248,22 @@ class ChequeWriteController extends Controller
                                 'amount' => $this->transactionUtil->num_uf($inputs['amount']),
                                 'account_id' => $accountPayable->id,
                                 'type' => 'debit',
-                                'sub_type' => 'cheque_return_charges',
+                                'sub_type' => 'ledger_show',
                                 'operation_date' => \Carbon::now(),
                                 'created_by' => Auth::user()->id
                             ];
                             AccountTransaction::createAccountTransaction($ob_transaction_data);
                         }
                     }else{
-                        $ob_transaction_data = [
-                            'amount' => $this->transactionUtil->num_uf($inputs['amount']),
-                            'account_id' => $accountInfo->id,
-                            'type' => 'credit',
-                            'sub_type' => 'cheque_return_charges',
-                            'operation_date' => \Carbon::now(),
-                            'created_by' => Auth::user()->id
-                        ];
-                        AccountTransaction::createAccountTransaction($ob_transaction_data);
+                        // $ob_transaction_data = [
+                        //     'amount' => $this->transactionUtil->num_uf($inputs['amount']),
+                        //     'account_id' => $accountInfo->id,
+                        //     'type' => 'credit',
+                        //     'sub_type' => 'ledger_show',
+                        //     'operation_date' => \Carbon::now(),
+                        //     'created_by' => Auth::user()->id
+                        // ];
+                        // AccountTransaction::createAccountTransaction($ob_transaction_data);
                     }
                     
                     

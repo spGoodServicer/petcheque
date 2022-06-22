@@ -177,8 +177,8 @@ class ManagePayeeController extends Controller
         $transaction_amount =  request()->transaction_amount;
         
         if (request()->ajax()) {
-            $dataQuery = Transaction::where('contact_id', $contact_id);
-            $dataQuery->select('transactions.transaction_date');
+            $dataQuery = ContactLedger::where('contact_id', $contact_id);
+            $dataQuery->select('contact_ledgers.operation_date');
             return Datatables::of($dataQuery)->make(true);
             exit;
         }
