@@ -556,7 +556,7 @@ class ChequeWriteController extends Controller
     {
         // $bankData = $this->db->query("select id from bank_accounts where account_number LIKE '". $this->input->post('bankacount') ."'")->row();
         $business_id = request()->session()->get('business.id');
-        $bankData = Account::where('business_id', $business_id)->where('id', $request->bankacount)->first();
+        $bankData = Account::where('business_id', $business_id)->where('account_number', $request->bankacount)->first();
         if (!empty($bankData)) {
             // $this->db->where('account_no', $bankData->id);
             // $this->db->where('status', 0);
