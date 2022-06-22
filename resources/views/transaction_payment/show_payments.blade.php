@@ -220,7 +220,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         {!! Form::label('receipt_no', __('lang_v1.receipt_no') . ':*') !!}
-                        {!! Form::select('receipt_no', $receipt_no, null, ['class' => 'form-control select2','id'=>'receipt_no'
+                        {!! Form::select('receipt_no', $receipt_no, null, ['class' => 'form-control select2','id'=>'receipt_no',
                         'placeholder' => __('lang_v1.all')]) !!}
 
                     </div>
