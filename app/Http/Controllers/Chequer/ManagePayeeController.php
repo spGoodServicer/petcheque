@@ -24,6 +24,7 @@ use App\Transaction;
 use App\TransactionPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 use App\Utils\ModuleUtil;
 use App\Utils\Util;
 
@@ -176,7 +177,10 @@ class ManagePayeeController extends Controller
         $transaction_amount =  request()->transaction_amount;
         
         if (request()->ajax()) {
-
+            $dataQuery = Transaction::where('contact_id', $contact_id);
+            $dataQuery->select('transactions.transaction_date');
+            $dataQuery->query();
+            return Datatables::of($dataQuery)->make(true);
             exit;
         }
 

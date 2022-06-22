@@ -204,7 +204,6 @@ $(document).ready(function(){
 
     if($('#total_paid').length){
         var total_paid =$('#total_paid').text();
-        console.log(total_paid);
         var totalPaid = parseFloat(total_paid.replace(/,/g, '')) +<?php echo $total_debit ?>;
         $('#total_paid').html(totalPaid.format(2));
     }
@@ -213,11 +212,14 @@ $(document).ready(function(){
         ordering:false,
         paging:false,
         dom: 't',
-        "ajax": {
+        ajax: {
             "data": function ( d ) {
                 console.log(d);
             }
-        }
+        },
+        columns: [
+            { data: 'transaction_date', name: 'transaction_date' }
+        ]
     });
 });
 /*************************************
