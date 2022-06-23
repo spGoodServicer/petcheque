@@ -5,6 +5,13 @@
 <section class="content-header no-print">
     <h1>{{ __('lang_v1.View Payee ledger') }}</h1>
 </section>
+@php
+	$currency_precision = !empty($business_details->currency_precision) ? $business_details->currency_precision : 2;
+	$total_debit = 0;
+	$opening_total = 0;
+	$opening_type = '';
+	$opening_bal = !empty($opening_balance_new[0]) ?$opening_balance_new[0]->opening_balance:$opening_balance;
+@endphp
 <section class="content no-print">
     <div class="box box-primary">
         <div class="box-header">
