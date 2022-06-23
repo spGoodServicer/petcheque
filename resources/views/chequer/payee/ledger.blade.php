@@ -300,7 +300,7 @@
                                                         :</b> @if(!empty($bank_account)) {{$bank_account->name}} @endif <br>
                                                     <b>@lang('lang_v1.cheque_number'):</b> {{$transaction_payment->cheque_number}} <br>
                                                     <b>@lang('lang_v1.cheque_date')
-                                                        :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                        :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                     <br>
                                                     <b>@lang('lang_v1.account_number')
                                                         :</b> @if(!empty($bank_account)){{$bank_account->account_number}} @endif <br>
@@ -315,7 +315,7 @@
                                                     {{ucfirst($transaction_payment->method)}} <br>
                                                     <b>@lang('lang_v1.cheque_number'):</b> {{$data->cheque_number}} <br>
                                                     <b>@lang('lang_v1.cheque_date')
-                                                        :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                        :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                     <br>
                                                 @elseif($transaction_payment->method == 'card')
                                                    {{ucfirst($transaction_payment->method)}} <br>
@@ -337,7 +337,7 @@
                                                         :</b> @if(!empty($bank_account)) {{$bank_account->name}} @endif <br>
                                                     <b>@lang('lang_v1.cheque_number'):</b> {{$data->cheque_number}} <br>
                                                     <b>@lang('lang_v1.cheque_date')
-                                                        :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                        :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                     <br>
                                                     <b>@lang('lang_v1.account_number')
                                                         :</b> @if(!empty($bank_account)){{$bank_account->account_number}} @endif <br>
@@ -351,7 +351,7 @@
                                                 @elseif($transaction_payment->method == 'cheque')
                                                     <b>@lang('lang_v1.cheque_number'):</b> {{$data->cheque_number}} <br>
                                                     <b>@lang('lang_v1.cheque_date')
-                                                        :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                        :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                     <br>
                                                 @elseif($transaction_payment->method == 'card')
                                                    {{ucfirst($transaction_payment->method)}} <br>
