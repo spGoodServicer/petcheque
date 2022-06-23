@@ -447,12 +447,12 @@ class ManagePayeeController extends Controller
             }
         }
         
-        dd($payments);
+        //dd($payments);
 
 
         $total_ob_paid = $payments->where('transaction_type', 'opening_balance')->sum('amount');
         $total_invoice_paid = $payments->where('transaction_type', 'sell')->sum('amount');
-        $total_purchase_paid = $payments->where('transaction_type', 'purchase')->sum('amount');
+        $total_purchase_paid = $payments->where('transaction_type', 'expense')->sum('amount');
 
         $start_date = $this->commonUtil->format_date($start);
         $end_date = $this->commonUtil->format_date($end);
