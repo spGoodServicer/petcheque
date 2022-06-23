@@ -171,9 +171,15 @@ class ManagePayeeController extends Controller
             ->where('accounts.business_id', $business_id)
             ->pluck('accounts.id')->toArray();
         $contact_id = $id;
-        $start_date = request()->start_date;
-        $end_date =  request()->end_date;
+        
         $ledger_date_range = request()->ledger_date_range;
+        
+        if($ledger_date_range){
+            $dates = explode(' - ', $ledger_date_range);
+            $start_date = $dates[0];
+            $end_date = $dates[1];
+        }
+
         $transaction_type =  request()->transaction_type;
         $transaction_amount =  request()->transaction_amount;
         $contact = Contact::find($contact_id);
