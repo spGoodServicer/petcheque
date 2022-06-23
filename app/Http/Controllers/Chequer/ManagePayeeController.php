@@ -524,7 +524,7 @@ class ManagePayeeController extends Controller
         if (!empty($start)  && empty($end)) {
             $query->whereDate('t.transaction_date', '<', $start);
         }
-        // dd($query->toSql());
+        dd($query->toSql());
         return $query;
     }
     /**
