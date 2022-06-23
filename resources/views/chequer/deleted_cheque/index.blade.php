@@ -40,7 +40,7 @@
       <div class="col-md-12">
         <div class="box">
           <div class="box-header">
-            <a  class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal"
+            <a  class="btn btn-block btn-primary pull-right" data-toggle="modal" data-target="#myModal"
             href="#" onclick="return false;" >
             <i class="fa fa-plus"></i> Cancel Cheque</a>
           </div>
