@@ -31,7 +31,9 @@ $settings = DB::table('site_settings')->where('id', 1)->select('*')->first();
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 
     <title>@yield('title') - {{ Session::get('business.name') }}</title>
+
     <link rel="shortcut icon" type="image/x-icon" href="{{url($settings->uploadFileFicon)}}" />
+    <script src="{{ asset('AdminLTE/plugins/jQuery/jquery-2.2.3.min.js?v=' . $asset_v) }}"></script>
     @include('layouts.partials.css')
     <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
