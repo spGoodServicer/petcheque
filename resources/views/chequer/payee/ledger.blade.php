@@ -575,6 +575,6 @@ $(document).ready( function(){
     $('.refresh-data').on('change',function(){
         $('#ledger_form').submit();
     });
-    $('#ledger_date_range_new').daterangepicker(dateRangeSettings);
+    $('#ledger_date_range').daterangepicker(dateRangeSettings);
 });
 @endsection
