@@ -39,6 +39,10 @@ class DeletedChequeController extends Controller
     {
         if($request){
             $defaultVal=array();
+            $defaultVal['startDate'] = date('m/01/Y');
+            $defaultVal['endDate'] = date('m/t/Y');
+            $defaultVal['filter_account_number']='';
+            $defaultVal['filter_cheque_number']='';
             if($request->date_range){
                 $dates = explode(' - ', $request->date_range);
                 $defaultVal['startDate'] = $dates[0];

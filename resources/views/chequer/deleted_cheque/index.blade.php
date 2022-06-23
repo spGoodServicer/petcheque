@@ -16,14 +16,14 @@
         <div class="col-md-4">
               <div class="form-group">
                   {!! Form::label('filter_account_number', __('Account Number') . ':') !!}
-                  {!! Form::select('filter_account_number', $accounts, null, ['placeholder' =>
+                  {!! Form::select('filter_account_number', $accounts, $defaultVal['filter_account_number'], ['placeholder' =>
                   __('account.account_name'),'class' => 'form-control select2 filter','style' => 'width:100%']); !!}
               </div>
           </div>
           <div class="col-sm-4">
               <div class="form-group">
                   {!! Form::label('filter_cheque_number', __('Cheque Number').':') !!}
-                  {!! Form::select('filter_cheque_number', $chequenolists, null, ['placeholder' =>
+                  {!! Form::select('filter_cheque_number', $chequenolists, $defaultVal['filter_cheque_number'], ['placeholder' =>
                   __('cheque.first_cheque_number'),'class' => 'form-control select2 filter']); !!}
               </div>
           </div>
