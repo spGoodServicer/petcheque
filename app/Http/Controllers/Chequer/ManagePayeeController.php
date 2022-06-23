@@ -214,6 +214,7 @@ class ManagePayeeController extends Controller
                     'transactions.pay_term_number',
                     'transactions.pay_term_type',
                     'transaction_payments.method as payment_method',
+                    'transaction_payments.payment_type',
                     'transaction_payments.bank_name',
                     'transaction_payments.cheque_date',
                     'transaction_payments.cheque_number',
