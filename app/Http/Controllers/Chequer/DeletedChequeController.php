@@ -66,8 +66,9 @@ class DeletedChequeController extends Controller
             $deletedcheque = $deletedcheque->where('cancel_cheque.account_id',$request->filter_account_number);
         if($request->filter_cheque_number)
             $deletedcheque = $deletedcheque->where('cancel_cheque.cheque_no',$request->filter_cheque_number);
+        \DB::enableQueryLog();
         $deletedcheque = $deletedcheque->orderBy('cancel_cheque.id','DESC')->get();
-
+        dd(\DB::getQueryLog());
         $refno=CancelCheque::select('id')->orderBy('id','ASC')->first();
         if($refno)
            $maxref= $refno->id+1;
