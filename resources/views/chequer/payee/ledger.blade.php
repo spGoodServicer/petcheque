@@ -570,4 +570,7 @@
         </div>
     </div>
 </section>
+$(document).ready( function(){
+    $('#ledger_date_range_new').daterangepicker(dateRangeSettings);
+});
 @endsection
