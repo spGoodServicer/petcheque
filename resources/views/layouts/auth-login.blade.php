@@ -55,6 +55,8 @@ if(!empty($business->background_showing_type) && !empty($business->background_sh
       <!-- google adsense -->
       <script data-ad-client="ca-pub-1123727429633739" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <title>{{$login_page_title}}</title>
+    <!-- jQuery 2.2.3 -->
+    <script src="{{ asset('AdminLTE/plugins/jQuery/jquery-2.2.3.min.js?v=' . $asset_v) }}"></script>
     <link href="{{asset('css/login.css')}}" rel="stylesheet" type="text/css" />
 
     <link rel="shortcut icon" type="image/x-icon" href="{{url($settings->uploadFileFicon)}}" />
