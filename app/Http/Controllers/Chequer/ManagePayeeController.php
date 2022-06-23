@@ -194,7 +194,7 @@ class ManagePayeeController extends Controller
 
         $ledger_details = $this->__getLedgerDetails($contact_id, $start_date, $end_date);
             // dd("sup");
-            $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
+        $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
             from `transactions` t left join `contact_ledgers` cl on `cl`.`transaction_id` = `t`.`id`
             left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
             where `cl`.`contact_id` = " . $contact_id . "
@@ -204,7 +204,7 @@ class ManagePayeeController extends Controller
             and date(`cl`.`operation_date`) >= '" . $start_date . "'
             and date(`cl`.`operation_date`) <= '" . $end_date . "'
             order by `cl`.`operation_date` limit 2");
-            $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
+        $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
                 ->leftjoin('transaction_payments', 'contact_ledgers.transaction_payment_id', 'transaction_payments.id')
                 ->leftjoin('business_locations', 'transactions.location_id', 'business_locations.id')
                 ->leftjoin('account_transactions', 'transactions.id', 'account_transactions.transaction_id')
@@ -249,11 +249,11 @@ class ManagePayeeController extends Controller
        $query->orderby('contact_ledgers.operation_date');
         // $query->skip(0)->take(5);
         // $ledger_transactions = $query->get();
-        // \DB::connection()->enableQueryLog();
+        \DB::connection()->enableQueryLog();
         
         $ledger_transactions = $query->get();
-        // $queries = \DB::getQueryLog();
-        // dd($queries);
+        $queries = \DB::getQueryLog();
+        dd($queries);
 
         // dd($ledger_details['beginning_balance']);
 
