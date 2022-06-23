@@ -38,7 +38,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         {!! Form::label('ledger_date_range', __('report.date_range') . ':') !!}
-                        {!! Form::text('ledger_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control refresh-data', 'readonly', 'id' => 'ledger_date_range']); !!}
+                        {!! Form::text('ledger_date_range', $ledger_date_range, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control refresh-data', 'readonly', 'id' => 'ledger_date_range']); !!}
                     </div>
                 </div>
                 

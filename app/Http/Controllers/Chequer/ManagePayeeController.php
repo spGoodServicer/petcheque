@@ -363,7 +363,7 @@ class ManagePayeeController extends Controller
         }
         $transaction_amounts = ContactLedger::where('contact_id', $id)->distinct('amount')->pluck('amount');
         return view('chequer.payee.ledger')
-        ->with(compact('ledger_details', 'contact','transaction_amounts', 'opening_balance','opening_balance_new', 'ledger_transactions', 'business_details', 'location_details'));
+        ->with(compact('ledger_details', 'contact','transaction_amounts', 'opening_balance','opening_balance_new', 'ledger_transactions', 'business_details', 'location_details','ledger_date_range'));
     }
     private function __getLedgerDetails($contact_id, $start, $end)
     {
