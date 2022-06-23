@@ -170,26 +170,352 @@ class ManagePayeeController extends Controller
             ->where('account_types.name', 'like', '%Assets%')
             ->where('accounts.business_id', $business_id)
             ->pluck('accounts.id')->toArray();
-        $contact_id = $id;
+        $contact_id = request()->input('contact_id');
         $start_date = request()->start_date;
         $end_date =  request()->end_date;
+
         $transaction_type =  request()->transaction_type;
         $transaction_amount =  request()->transaction_amount;
-        
-        if (request()->ajax()) {
-            
-            $dataQuery = ContactLedger::where('contact_id', $contact_id);
-            $dataQuery->select(DB::raw('DATE_FORMAT(contact_ledgers.operation_date, "%d/%m/%Y") AS operation_date'));
-            return Datatables::of($dataQuery)->make(true);
-            exit;
-        }
-
-        $contact = Contact::find($id);
+        $contact = Contact::find($contact_id);
         $business_details = $this->businessUtil->getDetails($contact->business_id);
         $location_details = BusinessLocation::where('business_id', $contact->business_id)->first();
         $opening_balance = Transaction::where('contact_id', $contact_id)->where('type', 'opening_balance')->where('payment_status', 'due')->sum('final_total');
-        $contact_dropdown = Contact::payeeDropdown($business_id, false, false);
-        $transaction_amounts = ContactLedger::where('contact_id', $id)->distinct('amount')->pluck('amount');
+
+        // dd($opening_balance);
+
+        $ledger_details = $this->__getLedgerDetails($contact_id, $start_date, $end_date);
+        if ($contact->type == 'supplier') {
+            // dd("sup");
+            $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
+            from `transactions` t left join `contact_ledgers` cl on `cl`.`transaction_id` = `t`.`id`
+            left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+            where `cl`.`contact_id` = " . $contact_id . "
+            and `cl`.`type` = 'debit'
+            and `t`.`business_id` = " . $business_id . "
+            and `t`.`type` = 'opening_balance'
+            and date(`cl`.`operation_date`) >= '" . $start_date . "'
+            and date(`cl`.`operation_date`) <= '" . $end_date . "'
+            order by `cl`.`operation_date` limit 2");
+            $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
+                ->leftjoin('transaction_payments', 'contact_ledgers.transaction_payment_id', 'transaction_payments.id')
+                ->leftjoin('business_locations', 'transactions.location_id', 'business_locations.id')
+                ->leftjoin('account_transactions', 'transactions.id', 'account_transactions.transaction_id')
+                ->leftjoin('accounts', 'account_transactions.account_id', 'accounts.id')
+                ->where('transactions.contact_id', $contact_id)
+                ->where('transactions.business_id', $business_id)
+                ->select(
+                    'contact_ledgers.*',
+                    'contact_ledgers.type as acc_transaction_type',
+                    'business_locations.name as location_name',
+                    'account_transactions.interest',
+                    'transactions.ref_no',
+                    'transactions.invoice_no',
+                    'transactions.transaction_date',
+                    'transactions.payment_status',
+                    'transactions.pay_term_number',
+                    'transactions.pay_term_type',
+                    'transaction_payments.method as payment_method',
+                    'transaction_payments.bank_name',
+                    'transaction_payments.cheque_date',
+                    'transaction_payments.cheque_number',
+                    //'transaction_payments.interest',
+                    'transactions.type as transaction_type',
+                    'accounts.account_number',
+                    'accounts.name as account_name'
+                )->groupBy('contact_ledgers.id')->orderBy('contact_ledgers.id', 'asc');
+
+				$ledger_details['bf_balance'] = 0;
+		}
+        if ($contact->type == 'customer') {
+            // dd("cus");
+            $opening_amount = ''; // ONLY SHOW OPENING BALANCE WHEN NO SALES AND PAYMENT
+            $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
+                from `transactions` t left join `contact_ledgers` cl on `cl`.`transaction_id` = `t`.`id`
+                left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+                where `cl`.`contact_id` = " . $contact_id . "
+                and `cl`.`type` = 'debit'
+                and `t`.`business_id` = " . $business_id . "
+                and `t`.`type` = 'opening_balance'
+                and date(`cl`.`operation_date`) >= '" . $start_date . "'
+                and date(`cl`.`operation_date`) <= '" . $end_date . "'
+                order by `cl`.`operation_date` limit 2");
+
+                // dd(count($opening_balance_new));
+            if (count($opening_balance_new) <= 1) {
+                // dd("1");
+                $opening_amount =  DB::select(" select (select(0 - IFNULL(amount,0))) as opening_balance
+                from `contact_ledgers` where contact_id = '$contact_id' order by created_at ASC limit 1");
+                if (count($opening_balance_new) == 0) {
+                    $opening_balance_new = DB::select(" select ( select
+                    sum(`bc_cl`.`amount`) as total_paid
+                    from `contact_ledgers` bc_cl left join `transactions` bc_t on `bc_cl`.`transaction_id` = `bc_t`.`id`
+                    left join `business_locations` bc_bl on `bc_t`.`location_id` = `bc_bl`.`id`
+                    where `bc_cl`.`contact_id` =  " . $contact_id . "
+                    and `bc_cl`.`type` = 'credit'
+                    and `bc_t`.`business_id` = " . $business_id . "
+                    and date(`bc_cl`.`operation_date`)  < '" . $start_date . "'
+                    group by `bc_cl`.`id` and `bc_cl`.`contact_id` order by bc_cl.operation_date) as before_purchase,
+                    (select sum(`cl`.`amount`)
+                    from `contact_ledgers` cl left join `transactions` t on `cl`.`transaction_id` = `t`.`id`
+                    left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+                        where `cl`.`contact_id` = " . $contact_id . "
+                        and `cl`.`type` = 'debit'
+                        and `t`.`business_id` = " . $business_id . "
+                        and date(`cl`.`operation_date`) < '" . $start_date . "'
+                        group by `cl`.`id` and `cl`.`contact_id` order by cl.operation_date)  as before_sell,
+                    (select(IFNULL(before_sell,0) - IFNULL(before_purchase,0))) as opening_balance");
+
+                    // $opening_balance_new = DB::select(" select ( select
+                    // sum(`bc_cl`.`amount`) as total_paid
+                    // from `contact_ledgers` bc_cl left join `transactions` bc_t on `bc_cl`.`transaction_id` = `bc_t`.`id`
+                    // left join `business_locations` bc_bl on `bc_t`.`location_id` = `bc_bl`.`id`
+                    // where `bc_cl`.`contact_id` =  " . $contact_id . "
+                    // and `bc_cl`.`type` = 'credit'
+                    // and `bc_t`.`business_id` = " . $business_id . "
+                    // and date(`bc_cl`.`operation_date`)  <= '" . $start_date . "'
+                    // group by `bc_cl`.`id` and `bc_cl`.`contact_id` order by bc_cl.operation_date) as before_purchase,
+                    // (select sum(`cl`.`amount`)
+                    // from `contact_ledgers` cl left join `transactions` t on `cl`.`transaction_id` = `t`.`id`
+                    // left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+                    //     where `cl`.`contact_id` = " . $contact_id . "
+                    //     and `cl`.`type` = 'debit'
+                    //     and `t`.`business_id` = " . $business_id . "
+                    //     and date(`cl`.`operation_date`) < '" . $start_date . "'
+                    //     group by `cl`.`id` and `cl`.`contact_id` order by cl.operation_date)  as before_sell,
+                    // (select(IFNULL(before_sell,0) - IFNULL(before_purchase,0))) as opening_balance");
+                }
+
+
+            // dd($opening_balance_new[0]);
+            } else {
+                // dd($opening_balance_new);
+                $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
+                from `contact_ledgers` cl left join `transactions` t on `cl`.`transaction_id` = `t`.`id`
+                left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+                where `cl`.`contact_id` = " . $contact_id . "
+                and `cl`.`type` = 'debit'
+                and `t`.`business_id` = " . $business_id . "
+                and `t`.`type` = 'opening_balance'
+                and date(`cl`.`operation_date`) >= '" . $start_date . "'
+                and date(`cl`.`operation_date`) <= '" . $end_date . "'
+                order by `cl`.`operation_date`");
+
+
+            // dd($opening_balance_new);
+            }
+                // $total_paid = DB::select("select
+                // sum(`bc_tp`.`amount`) as total_paid
+                // from `contact_ledgers` bc_cl left join `transactions` bc_t on `bc_cl`.`transaction_id` = `bc_t`.`id`
+                // left join `business_locations` bc_bl on `bc_t`.`location_id` = `bc_bl`.`id`
+                // left join `transaction_payments` bc_tp on `bc_cl`.`transaction_payment_id` = `bc_tp`.`id`
+                // where `bc_cl`.`contact_id` =  " . $contact_id . "
+                // and `bc_cl`.`type` = 'credit'
+                // and `bc_tp`.`method` != 'null'
+                // and `bc_t`.`business_id` = " . $business_id . "
+                // and date(`bc_cl`.`operation_date`)  >= '" . $start_date . "'
+                // and date(`bc_cl`.`operation_date`)  <= '" . $end_date . "'
+                // group by `bc_cl`.`id` and `bc_cl`.`contact_id` ");
+            $total_sell = DB::select("select
+            sum(`bc_cl`.`amount`) as total_sell
+            from `contact_ledgers` bc_cl left join `transactions` bc_t on `bc_cl`.`transaction_id` = `bc_t`.`id`
+           left join `business_locations` bc_bl on `bc_t`.`location_id` = `bc_bl`.`id`
+           where `bc_cl`.`contact_id` =  " . $contact_id . "
+           and `bc_cl`.`type` = 'debit'
+           and `bc_t`.`type` != 'opening_balance'
+           and `bc_t`.`business_id` = " . $business_id . "
+           and date(`bc_cl`.`operation_date`)  >= '" . $start_date . "'
+           and date(`bc_cl`.`operation_date`)  <= '" . $end_date . "'
+           group by `bc_cl`.`id` and `bc_cl`.`contact_id` ");
+            $ledger_details['total_invoice'] = count($total_sell) > 0 ? $total_sell[0]->total_sell : 0;
+            $ledger_details['opening'] = $opening_amount;
+            //$GLOBALS['n'] = $array($ledger_details['balance_due'], $contact_id);
+            $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
+                ->leftjoin('account_transactions', 'contact_ledgers.transaction_id', 'account_transactions.transaction_id')
+                ->leftjoin('business_locations', 'transactions.location_id', 'business_locations.id')
+                ->leftjoin('transaction_payments', 'contact_ledgers.transaction_payment_id', 'transaction_payments.id')
+                ->where('contact_ledgers.contact_id', $contact_id)
+                ->where('transactions.business_id', $business_id)
+                ->select(
+                    'contact_ledgers.*',
+                    'transaction_payments.amount as cheque_return_amount',
+                    'transactions.cheque_return_charges',
+
+                    'contact_ledgers.type as acc_transaction_type',
+                    'business_locations.name as location_name',
+                    'transactions.sub_type as t_sub_type',
+                    'transactions.final_total',
+                    'transactions.ref_no',
+                    'transactions.invoice_no',
+                    'transactions.is_direct_sale',
+                    'transactions.is_credit_sale',
+                    'transactions.is_settlement',
+                    'transactions.transaction_date',
+                    'transactions.payment_status',
+                    'transactions.pay_term_number',
+                    'transactions.pay_term_type',
+                    'transactions.type as transaction_type',
+                    'transactions.created_at as transaction_created_at',
+                    'transaction_payments.method as payment_method',
+                    'transaction_payments.transaction_id as tp_transaction_id',
+                    'transaction_payments.paid_on',
+                    'transaction_payments.bank_name',
+                    'transaction_payments.cheque_date',
+                    'transaction_payments.cheque_number',
+                    'transaction_payments.card_number'
+                //     DB::raw("(select
+                //     sum(`bc_cl`.`amount`)
+                //     from `contact_ledgers` bc_cl left join `transactions` bc_t on `bc_cl`.`transaction_id` = `bc_t`.`id`
+                //    left join `business_locations` bc_bl on `bc_t`.`location_id` = `bc_bl`.`id`
+                //    where `bc_cl`.`contact_id` =  `contact_ledgers`.`contact_id`
+                //    and `bc_cl`.`type` = 'credit'
+                //    and `bc_t`.`business_id` = `transactions`.`business_id`
+                //    and `bc_cl`.`id`  <= `contact_ledgers`.`id`
+                //    group by `bc_cl`.`id` and `bc_cl`.`contact_id`) as balance_credit"),
+                //     DB::raw("(select
+                //     sum(`cl`.`amount`)
+                //    from `contact_ledgers` cl left join `transactions` t on `cl`.`transaction_id` = `t`.`id`
+                //    left join `business_locations` bl on `t`.`location_id` = `bl`.`id`
+                //    where `cl`.`contact_id` =  `contact_ledgers`.`contact_id`
+                //    and `cl`.`type` = 'debit'
+                //    and `t`.`business_id` = `transactions`.`business_id`
+                //    and `cl`.`id`  <= `contact_ledgers`.`id`
+                //    group by `cl`.`id` and `cl`.`contact_id`) as balance_debit"),
+                //     DB::raw("(select(IFNULL(balance_debit,0) - IFNULL(balance_credit,0)) ) as balance")
+                )->groupBy('contact_ledgers.id')->orderBy('contact_ledgers.id', 'asc');
+                // dd($query->get());
+        }
+        if (!empty($start_date)  && !empty($end_date)) {
+            $query->whereDate('contact_ledgers.operation_date', '>=', $start_date);
+            $query->whereDate('contact_ledgers.operation_date', '<=', $end_date);
+            // $query->whareBetween("transaction_payments.paid_on", [$start_date, $end_date]);
+        }
+        if (!empty($transaction_type)) { // debit / credit type filter
+            $query->where('contact_ledgers.type', $transaction_type);
+        }
+        if (!empty($transaction_amount)) {
+            $query->where('contact_ledgers.amount', $transaction_amount);
+        }
+       $query->orderby('contact_ledgers.operation_date');
+        // $query->skip(0)->take(5);
+        // $ledger_transactions = $query->get();
+
+        $ledger_transactions = $query->get();
+
+        // dd($ledger_details['beginning_balance']);
+
+                // dd($opening_balance_new);
+        if ($contact->type == 'customer') {
+            // dd($ledger_transactions);
+            $total_paid = $skipped_cr = 0;
+            $dateTimestamp1 = date('Y-m-d',strtotime($contact->created_at));
+            foreach($ledger_transactions->toArray() as $val) {
+
+
+               if($val['acc_transaction_type'] == 'credit') {
+                    if(!empty($val['transaction_payment_id'])){
+                        $transaction_payment = TransactionPayment::where('id', $val['transaction_payment_id'])->withTrashed()->first();
+                    }
+                    $amount = 0;
+                    if(!empty($transaction_payment)){
+                        if(empty($transaction_payment->transaction_id)){ // if empty then it will be parent payment
+                            $amount = $transaction_payment->amount;  // show parent transaction payment amount
+                        }else{
+                            $amount = $val['amount']; // get the amount from contact ledger if not a payment
+                        }
+                    }else{
+                        $amount = $val['amount'];
+                    }
+                    if($val['transaction_type'] === 'opening_balance' && $val['final_total'] < 0) {
+                        if(strtotime($start_date) < strtotime($val['transaction_created_at'])) {
+                            $ledger_details['opening_balance'] = $val['final_total'];
+                        }
+                    }
+                    // fixed total amount
+                    $total_paid = $total_paid + $amount;
+                    // else {
+                    //     $total_paid = $total_paid + $amount;
+                    // }
+
+                    // fixed total amount
+					if($val['transaction_type'] == 'opening_balance' ){
+                        $dateTimestamp1 = date('Y-m-d',strtotime($val['transaction_date'])) ;
+                        $skipped_cr += $amount;
+                       continue;
+                    }
+
+               }
+
+            }
+            //$opening_balance = $ledger_details['beginning_balance'];
+            // dd($dateTimestamp1);
+            // $dateTimestamp2 = strtotime($date2);
+            // dd($ledger_details['beginning_balance']);
+            $ledger_details['total_paid'] = $total_paid;
+            $ledger_details['bf_balance'] = $ledger_details['beginning_balance'] = count($opening_balance_new) > 0 ? $opening_balance_new[0]->opening_balance : 0;
+            // dd($opening_balance_new);
+            // $ledger_details['beginning_balance'] = count($bg_bl) > 0 ? $bg_bl[0]->opening_balance : 0;
+            $ledger_details['balance'] = $ledger_details['balance_due'] = $ledger_details['beginning_balance'] + $ledger_details['total_invoice'] - ($ledger_details['total_paid']);
+            // dd($ledger_details);
+            //    dd($ledger_details);
+            if(!empty($start_date) && $dateTimestamp1 >= $start_date){
+                $ledger_details['beginning_balance'] =0;
+                 if(count($ledger_details['ledger']) > 0) { $ledger_details['bf_balance'] =0 ; } else{$ledger_details['bf_balance'] =$ledger_details['balance_due'];$ledger_details['beginning_balance'] =$ledger_details['balance_due'];};
+                  //$ledger_details['balance_due'] = 0;
+                $ledger_details['balance'] = 0;
+
+            }
+            if(!empty($start_date) && $dateTimestamp1 > $start_date){
+                // echo "Inside Con<br>";
+               $ledger_details['beginning_balance'] =0;
+                if(count($ledger_details['ledger']) > 0) { $ledger_details['bf_balance'] =0 ; } else{$ledger_details['bf_balance'] =$ledger_details['balance_due'];$ledger_details['beginning_balance'] =$ledger_details['balance_due'];};
+               $ledger_details['balance_due'] -=  $skipped_cr ;
+            }else{
+                 //$ledger_details['balance'] -=  $skipped_cr ;
+            }
+        }
+        // dd($ledger_details['beginning_balance']);
+
+        // dd($ledger_transactions);
+        //  $ledger_details['bf_balance'] = 0;
+        //   $ledger_details['beginning_balance'] =0;
+	    //dd($ledger_transactions);
+	    //dd((count($ledger_details['ledger']) > 0) ? 1 : 0  , $ledger_details);
+
+	    $total_debit = 0;
+	    $total_credit = 0;
+
+	    foreach($ledger_transactions as $value){
+	        if($value->type == "debit" && $value->payment_status != 'due'){
+	            $total_debit += $value->amount;
+	           // var_dump('debit', $value->amount , $total_debit);
+	        }else if($value->type == "credit"){
+
+	             $total_credit += $value->amount;
+	             //var_dump('credit', $value->amount , $total_credit);
+	        }
+	    }
+
+	   // dd($total_debit , $total_credit);
+
+        if (request()->input('action') == 'pdf') {
+            $for_pdf = true;
+            $html = view('contact.ledger')
+                ->with(compact('ledger_details', 'contact', 'opening_balance_new','for_pdf', 'ledger_transactions', 'business_details', 'location_details'))->render();
+            $mpdf = $this->getMpdf();
+            $mpdf->WriteHTML($html);
+            $mpdf->Output();
+            exit;
+        }
+
+        $customer_created_date = auth()->user()->created_at->toArray();
+        if(!isset($ledger_details['opening_balance'])) {
+            $ledger_details['opening_balance'] = 0;
+        }
+        if (request()->input('action') == 'print') {
+            $for_pdf = true;
+            return view('contact.ledger')
+                ->with(compact('ledger_details', 'contact','opening_balance_new', 'for_pdf', 'ledger_transactions', 'business_details', 'location_details'))->render();
+        }
         
         return view('chequer.payee.ledger')
             ->with(compact( 'contact_dropdown','contact','transaction_amounts', 'opening_balance', 'business_details', 'location_details'));
