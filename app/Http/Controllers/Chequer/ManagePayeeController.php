@@ -446,7 +446,12 @@ class ManagePayeeController extends Controller
             if ($contact->type == "supplier") {
             }
         }
-        dd($payments->where('transaction_type', 'opening_balance'));
+        \DB::connection()->enableQueryLog();
+        $total_ob_paid = $payments->where('transaction_type', 'opening_balance')->sum('amount');
+        $queries = \DB::getQueryLog();
+        dd($queries);
+
+
         $total_ob_paid = $payments->where('transaction_type', 'opening_balance')->sum('amount');
         $total_invoice_paid = $payments->where('transaction_type', 'sell')->sum('amount');
         $total_purchase_paid = $payments->where('transaction_type', 'purchase')->sum('amount');
