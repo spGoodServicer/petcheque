@@ -176,8 +176,8 @@ class ManagePayeeController extends Controller
         
         if($ledger_date_range){
             $dates = explode(' - ', $ledger_date_range);
-            $start_date = $dates[0];
-            $end_date = $dates[1];
+            $start_date = date('Y-m-d',strtotime($dates[0]));
+            $end_date = date('Y-m-d',strtotime($dates[1]));
         }else{
             $start_date = date('Y-m-d');
             $end_date = date('Y-m-d');
@@ -249,11 +249,11 @@ class ManagePayeeController extends Controller
        $query->orderby('contact_ledgers.operation_date');
         // $query->skip(0)->take(5);
         // $ledger_transactions = $query->get();
-        \DB::connection()->enableQueryLog();
+        // \DB::connection()->enableQueryLog();
         
         $ledger_transactions = $query->get();
-        $queries = \DB::getQueryLog();
-        dd($queries);
+        // $queries = \DB::getQueryLog();
+        // dd($queries);
 
         // dd($ledger_details['beginning_balance']);
 
