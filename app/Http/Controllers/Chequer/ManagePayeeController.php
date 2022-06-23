@@ -398,11 +398,11 @@ class ManagePayeeController extends Controller
        $query->orderby('contact_ledgers.operation_date');
         // $query->skip(0)->take(5);
         // $ledger_transactions = $query->get();
-        \DB::connection()->enableQueryLog();
+        // \DB::connection()->enableQueryLog();
         
         $ledger_transactions = $query->get();
-        $queries = \DB::getQueryLog();
-        dd($queries);
+        // $queries = \DB::getQueryLog();
+        // dd($queries);
 
         // dd($ledger_details['beginning_balance']);
 
