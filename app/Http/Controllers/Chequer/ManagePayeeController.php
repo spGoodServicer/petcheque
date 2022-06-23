@@ -446,10 +446,11 @@ class ManagePayeeController extends Controller
             if ($contact->type == "supplier") {
             }
         }
-        dd($ledger);
+        dd($payments->where('transaction_type', 'opening_balance')->toSql());
         $total_ob_paid = $payments->where('transaction_type', 'opening_balance')->sum('amount');
         $total_invoice_paid = $payments->where('transaction_type', 'sell')->sum('amount');
         $total_purchase_paid = $payments->where('transaction_type', 'purchase')->sum('amount');
+
         $start_date = $this->commonUtil->format_date($start);
         $end_date = $this->commonUtil->format_date($end);
         $total_invoice = $invoice_sum - $sell_return_sum;
