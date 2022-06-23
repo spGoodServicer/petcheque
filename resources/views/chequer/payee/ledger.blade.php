@@ -217,7 +217,7 @@
                                 @else
                                     <td class="row-border">{{@format_date($data->transaction_date)}}</td>
                                 @endif
-                                <td>
+                                <td>{{$data->is_settlement }}
                                     @if($data->is_settlement == 1)
                                         <b>Settlment No: </b> {{$data->invoice_no}} <br>
                                         @if($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'debit' && $data->t_sub_type == 'cash_payment')
