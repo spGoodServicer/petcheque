@@ -93,14 +93,14 @@
                         <tr>
                             <td>@lang('lang_v1.beginning_balance')</td>
                             <td>
-                            {{-- {{number_format($ledger_details['beginning_balance'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
+                            {{number_format($ledger_details['beginning_balance'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}}
                             </td>
                         </tr>
                         @if( $contact->type == 'supplier' || $contact->type == 'both')
                             <tr>
                                 <td>@lang('report.total_purchase')</td>
                                 <td>
-                                {{-- {{number_format($ledger_details['total_purchase'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
+                                {{number_format($ledger_details['total_purchase'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}}
                                 </td>
                             </tr>
                         @endif
@@ -108,20 +108,20 @@
                             <tr>
                                 <td>@lang('lang_v1.total_sales')</td>
                                 <td id="total_invoice">
-                                {{-- {{number_format($ledger_details['total_invoice'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
+                                {{number_format($ledger_details['total_invoice'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}}
                                 </td>
                             </tr>
                         @endif
                         <tr>
                             <td>@lang('sale.total_paid')</td>
                             <td id="total_paid">
-                            {{-- {{number_format($ledger_details['total_paid'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
+                            {{number_format($ledger_details['total_paid'],  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}}
                             </td>
                         </tr>
                         <tr>
                             <td><strong>@lang('lang_v1.balance_due')</strong></td>
                             <td id="total_due">
-                            {{-- {{number_format(($ledger_details['balance_due']),  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}} --}}
+                            {{number_format(($ledger_details['balance_due']),  $currency_precision, session('currency')['decimal_separator'], session('currency')['thousand_separator'])}}
                             </td>
                         </tr>
                     </table>
@@ -129,7 +129,7 @@
                 <div class="col-md-12 col-sm-12 @if(!empty($for_pdf)) width-100 @endif">
                     <p style="text-align: center !important; float: left; width: 100%;">
                         <strong>
-                            {{-- @lang('lang_v1.ledger_table_heading',['start_date' =>$ledger_details['start_date'], 'end_date' => $ledger_details['end_date']]) --}}
+                            @lang('lang_v1.ledger_table_heading',['start_date' =>$ledger_details['start_date'], 'end_date' => $ledger_details['end_date']])
                         </strong>
                     </p>
                     <table class="table table-striped @if(!empty($for_pdf)) table-pdf td-border @endif" id="ledger_table">
