@@ -188,12 +188,12 @@ class ManagePayeeController extends Controller
         $contact = Contact::find($contact_id);
         $business_details = $this->businessUtil->getDetails($contact->business_id);
         $location_details = BusinessLocation::where('business_id', $contact->business_id)->first();
-        $opening_balance = Transaction::where('contact_id', $contact_id)->where('type', 'expense')->where('payment_status','!=', 'paid')->sum('final_total');
+        $opening_balance = Transaction::where('contact_id', $contact_id)->where('type', 'opening_balance')->where('payment_status','due')->sum('final_total');
 
         // dd($opening_balance);
 
         $ledger_details = $this->__getLedgerDetails($contact_id, $start_date, $end_date);
-        print_r($ledger_details);
+        
             // dd("sup");
         $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
             from `transactions` t left join `contact_ledgers` cl on `cl`.`transaction_id` = `t`.`id`
@@ -205,7 +205,7 @@ class ManagePayeeController extends Controller
             and date(`cl`.`operation_date`) >= '" . $start_date . "'
             and date(`cl`.`operation_date`) <= '" . $end_date . "'
             order by `cl`.`operation_date` limit 2");
-        dd($opening_balance_new);
+        
         $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
                 ->leftjoin('transaction_payments', 'contact_ledgers.transaction_payment_id', 'transaction_payments.id')
                 ->leftjoin('business_locations', 'transactions.location_id', 'business_locations.id')
