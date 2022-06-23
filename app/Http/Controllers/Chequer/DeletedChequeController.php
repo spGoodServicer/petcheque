@@ -77,7 +77,7 @@ class DeletedChequeController extends Controller
         foreach($account as $datarow){
             $accounts[$datarow->account_id] = $datarow->account->account_number;
         }
-       $chequenolist = PrintedChequeDetail::where('status', NULL) ->where('business_id',$business_id)->distinct()->get();
+       $chequenolist = CancelCheque::where('business_id',$business_id)->groupBy('cheque_no')->get();
        $chequenolists=[];
         foreach($chequenolist as $datarow){
             $chequenolists[$datarow->cheque_no] = $datarow->cheque_no;
