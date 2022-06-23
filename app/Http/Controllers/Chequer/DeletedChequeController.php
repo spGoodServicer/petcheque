@@ -44,6 +44,10 @@ class DeletedChequeController extends Controller
                 $defaultVal['startDate'] = $dates[0];
                 $defaultVal['endDate'] = $dates[1];
             }
+            if($request->filter_account_number)
+                $defaultVal['filter_account_number'] = $request->filter_account_number;
+            if($request->filter_cheque_number)
+                $defaultVal['filter_cheque_number'] = $request->filter_cheque_number;
         } 
         $maxref=1;
          $business_id = request()->session()->get('business.id');
@@ -53,7 +57,11 @@ class DeletedChequeController extends Controller
         {
             $deletedcheque = $deletedcheque->where('cancel_cheque.reg_datetime','>=',date('Y-m-d',strtotime($defaultVal['startDate'])));
             $deletedcheque = $deletedcheque->where('cancel_cheque.reg_datetime','<=',date('Y-m-d',strtotime($defaultVal['endDate'])));
-        }                                              
+        }
+        if($request->filter_account_number)
+            $deletedcheque = $deletedcheque->where('cancel_cheque.account_id',$request->filter_account_number);
+        if($request->filter_cheque_number)
+            $deletedcheque = $deletedcheque->where('cancel_cheque.cheque_no',$request->filter_cheque_number);
         $deletedcheque = $deletedcheque->orderBy('cancel_cheque.id','DESC')->get();
 
         $refno=CancelCheque::select('id')->orderBy('id','ASC')->first();

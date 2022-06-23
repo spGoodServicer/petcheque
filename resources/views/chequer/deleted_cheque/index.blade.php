@@ -11,10 +11,9 @@
 <!-- Main content -->
 <section class="content">
   @component('components.filters', ['title' => __('report.filters')])
+  {!! Form::open(['method' => 'post','id'=>'filterForm']) !!}
     <div class="row">
-      <div class="col-md-12">
-          
-          <div class="col-md-4">
+        <div class="col-md-4">
               <div class="form-group">
                   {!! Form::label('filter_account_number', __('Account Number') . ':') !!}
                   {!! Form::select('filter_account_number', $accounts, null, ['class' => 'form-control select2 filter','style' => 'width:100%']); !!}
@@ -32,9 +31,8 @@
                   {!! Form::text('filter_date_range',($defaultVal)? $defaultVal['startDate'].' - '.$defaultVal['endDate']: @date('m/01/Y').' - '.@date('m/t/Y') , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' =>'form-control filter', 'id' => 'date_range', 'readonly']); !!}
               </div>
           </div>
-          
-      </div>
     </div>
+    {!! Form::close() !!}
    @endcomponent
     <div class="row">
       <div class="col-md-12">
