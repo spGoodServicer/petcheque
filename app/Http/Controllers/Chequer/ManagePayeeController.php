@@ -518,7 +518,7 @@ class ManagePayeeController extends Controller
         }
         
         return view('chequer.payee.ledger')
-            ->with(compact( 'contact','transaction_amounts', 'opening_balance', 'business_details', 'location_details'));
+        ->with(compact('ledger_details', 'contact', 'opening_balance','opening_balance_new', 'ledger_transactions', 'business_details', 'location_details'));
     }
     private function __getLedgerDetails($contact_id, $start, $end)
     {
