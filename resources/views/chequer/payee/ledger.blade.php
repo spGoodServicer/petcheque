@@ -217,40 +217,11 @@
                                 @else
                                     <td class="row-border">{{@format_date($data->transaction_date)}}</td>
                                 @endif
-                                <td>{{$data->is_settlement }}
-                                    @if($data->is_settlement == 1)
-                                        <b>Settlment No: </b> {{$data->invoice_no}} <br>
-                                        @if($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'debit' && $data->t_sub_type == 'cash_payment')
-                                            {{$data->ref_no}} Cash Sale
-                                        @elseif($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'credit' && $data->t_sub_type == 'cash_payment')
-                                            {{$data->ref_no}} Cash Payment
-                                        @elseif($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'debit' && $data->t_sub_type == 'card_payment')
-                                            {{$data->ref_no}} Card Sale
-                                        @elseif($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'credit' && $data->t_sub_type == 'card_payment')
-                                            {{$data->ref_no}} Card Payment
-                                        @elseif($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'debit' && $data->t_sub_type == 'cheque_payment')
-                                            {{$data->ref_no}} Cheque Sale
-                                        @elseif($data->transaction_type == 'settlement' && $data->acc_transaction_type == 'credit' && $data->t_sub_type == 'cheque_payment')
-                                            {{$data->ref_no}} <br> <b>@lang('lang_v1.bank_name'):</b> {{$data->bank_name}}
-                                            <b>@lang('lang_v1.cheque_no'):</b> {{$data->cheque_number}} <b>@lang('lang_v1.cheque_date')
-                                                :</b> {{$data->cheque_date}}
-                                        @elseif($data->transaction_type == 'sell' && $data->acc_transaction_type == 'debit' && $data->t_sub_type == 'credit_sale')
-                                            {{$data->ref_no}} Credit Sale
-                                            @php
-                                                $settlement_expense = \Modules\Petro\Entities\SettlementCreditSalePayment::where('transaction_id', $data->transaction_id)->first();
-                                            @endphp
-                                            <br>
-                                            @if(!empty($settlement_expense))
-                                                <b>Order No:</b> {{ $settlement_expense->order_number}}<br>
-                                                <b>Order Date:</b> {{ $settlement_expense->order_date}}
-                                                <b>Reason: </b> {{ $settlement_expense->reason }}<br>
-                                            @endif
-                                        @endif
-                                        @if(!empty($data->deleted_by))
-                                            <b>@lang('lang_v1.deleted')</b>
-                                        @endif
-                                    @else
-                                        @if($data->is_direct_sale)
+                                <td>
+                                    @php
+                                        print_r($data);
+                                    @endphp
+                                    @if($data->is_direct_sale)
                                             @lang('lang_v1.invoice_sale'): {{$data->invoice_no}}
                                         @elseif($data->transaction_type == 'sell' && $data->t_sub_type == 'settlement')
                                             @lang('lang_v1.settlement'): {{$data->ref_no}}
@@ -284,7 +255,7 @@
                                             <br><b>@lang('lang_v1.deleted')</b>
                                         @endif
                 
-                                    @endif
+                                    
                                 </td>
                                 <td>@if($data->transaction_type == 'purchase') @lang('lang_v1.purchase') @elseif($data->transaction_type
                                     == 'opening_balance') @lang('lang_v1.opening_balance') @elseif($data->transaction_type == 'sell')
