@@ -173,11 +173,14 @@ class ManagePayeeController extends Controller
         $contact_id = $id;
         
         $ledger_date_range = request()->ledger_date_range;
-        var_dump($ledger_date_range);
+        
         if($ledger_date_range){
             $dates = explode(' - ', $ledger_date_range);
             $start_date = $dates[0];
             $end_date = $dates[1];
+        }else{
+            $start_date = date('Y-m-d');
+            $end_date = date('Y-m-d');
         }
 
         $transaction_type =  request()->transaction_type;
