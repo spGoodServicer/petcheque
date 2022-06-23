@@ -423,7 +423,7 @@ class ManagePayeeController extends Controller
         //Get payment totals between dates
         $payments = $this->__paymentQuery($contact_id, $start, $end)
             ->select('transaction_payments.*', 'bl.name as location_name', 't.type as transaction_type', 't.ref_no', 't.invoice_no')->get();
-        dd($payments);
+        // dd($payments);
         $paymentTypes = $this->transactionUtil->payment_types();
         //Get payment totals before start date
         $prev_payments_sum = $this->__paymentQuery($contact_id, $start)
@@ -446,6 +446,7 @@ class ManagePayeeController extends Controller
             if ($contact->type == "supplier") {
             }
         }
+        dd($ledger);
         $total_ob_paid = $payments->where('transaction_type', 'opening_balance')->sum('amount');
         $total_invoice_paid = $payments->where('transaction_type', 'sell')->sum('amount');
         $total_purchase_paid = $payments->where('transaction_type', 'purchase')->sum('amount');
