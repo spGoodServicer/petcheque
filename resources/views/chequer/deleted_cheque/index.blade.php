@@ -35,44 +35,47 @@
           
       </div>
     </div>
+   @endcomponent
     <div class="row">
-      <div class="col-md-7">
-        {{ Form::open(array('id' => 'filterForm')) }}
-        
-        {{ Form::close() }}
-      </div>
-      <div class="col-md-5">
-        <a  class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal"
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-header">
+            <a  class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal"
             href="#" onclick="return false;" >
             <i class="fa fa-plus"></i> Cancel Cheque</a>
+          </div>
+          <div class="box-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped" id="templates_table">
+                  <thead>
+                      <tr>
+                          <th>Date & Time</th>
+                          <th>Account Number</th>
+                          <th>Cheque No</th>
+                          <th>User</th>
+                          <th>Note</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($deletedcheque as $data)
+                          <tr>
+                              <td>{{$data->reg_datetime}}</td>
+                              <td>{{$data->account->account_number}}</td>
+                              <td>{{$data->cheque_no}}</td>
+                              <td>{{$data->username}}</td>
+                              <td>{{$data->note}}</td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped" id="templates_table">
-            <thead>
-                <tr>
-                    <th>Date & Time</th>
-                    <th>Account Number</th>
-                    <th>Cheque No</th>
-                    <th>User</th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($deletedcheque as $data)
-                    <tr>
-                        <td>{{$data->reg_datetime}}</td>
-                        <td>{{$data->account->account_number}}</td>
-                        <td>{{$data->cheque_no}}</td>
-                        <td>{{$data->username}}</td>
-                        <td>{{$data->note}}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    
 
-    @endcomponent
+    
 </section>
 <div class="modal" tabindex="-1" role="dialog" id="myModal">
   <div class="modal-dialog" role="document">
@@ -137,7 +140,7 @@
       $('input#date_range').daterangepicker(
             dateRangeSettings
         );
-      $('.filter-control').on('change',function(){
+      $('.filter').on('change',function(){
             $('#filterForm').submit();
         });
       $('.databind').on('change',function(){
