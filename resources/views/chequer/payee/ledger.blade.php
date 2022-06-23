@@ -571,10 +571,12 @@
         </div>
     </div>
 </section>
+<script>
 $(document).ready( function(){
     $('.refresh-data').on('change',function(){
         $('#ledger_form').submit();
     });
     $('#ledger_date_range').daterangepicker(dateRangeSettings);
 });
+</script>
 @endsection
