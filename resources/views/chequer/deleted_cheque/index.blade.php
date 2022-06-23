@@ -24,7 +24,7 @@
               <div class="form-group">
                   {!! Form::label('filter_cheque_number', __('Cheque Number').':') !!}
                   {!! Form::select('filter_cheque_number', $chequenolists, $defaultVal['filter_cheque_number'], ['placeholder' =>
-                  __('cheque.first_cheque_number'),'class' => 'form-control select2 filter']); !!}
+                  __('cheque.cheque_number'),'class' => 'form-control select2 filter']); !!}
               </div>
           </div>
           <div class="col-md-4">
