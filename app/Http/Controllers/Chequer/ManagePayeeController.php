@@ -188,7 +188,7 @@ class ManagePayeeController extends Controller
         $contact = Contact::find($contact_id);
         $business_details = $this->businessUtil->getDetails($contact->business_id);
         $location_details = BusinessLocation::where('business_id', $contact->business_id)->first();
-        $opening_balance = Transaction::where('contact_id', $contact_id)->where('type', 'opening_balance')->where('payment_status', 'due')->sum('final_total');
+        $opening_balance = Transaction::where('contact_id', $contact_id)->where('type', 'expense')->where('payment_status','!=', 'paid')->sum('final_total');
 
         // dd($opening_balance);
 
