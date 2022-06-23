@@ -386,7 +386,7 @@ class ManagePayeeController extends Controller
 
 
 
-        \DB::connection()->enableQueryLog();
+        // \DB::connection()->enableQueryLog();
         $previous_transaction_sums = $this->__transactionQuery($contact_id, $start)
             ->select(
                 DB::raw("SUM(IF(type = 'purchase', final_total, 0)) as total_purchase"),
@@ -395,8 +395,8 @@ class ManagePayeeController extends Controller
                 DB::raw("SUM(IF(type = 'purchase_return', final_total, 0)) as total_purchase_return"),
                 DB::raw("SUM(IF(type = 'opening_balance', final_total, 0)) as opening_balance")
             )->first();
-        $queries = \DB::getQueryLog();
-        dd($queries);
+        // $queries = \DB::getQueryLog();
+        // dd($queries);
 
 
 
