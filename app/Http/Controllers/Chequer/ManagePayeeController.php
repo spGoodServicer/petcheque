@@ -398,8 +398,11 @@ class ManagePayeeController extends Controller
        $query->orderby('contact_ledgers.operation_date');
         // $query->skip(0)->take(5);
         // $ledger_transactions = $query->get();
-
+        \DB::connection()->enableQueryLog();
+        
         $ledger_transactions = $query->get();
+        $queries = \DB::getQueryLog();
+        dd($queries);
 
         // dd($ledger_details['beginning_balance']);
 
@@ -499,7 +502,7 @@ class ManagePayeeController extends Controller
 
         if (request()->input('action') == 'pdf') {
             $for_pdf = true;
-            $html = view('contact.ledger')
+            $html = view('chequer.payee.ledger')
                 ->with(compact('ledger_details', 'contact', 'opening_balance_new','for_pdf', 'ledger_transactions', 'business_details', 'location_details'))->render();
             $mpdf = $this->getMpdf();
             $mpdf->WriteHTML($html);
@@ -513,7 +516,7 @@ class ManagePayeeController extends Controller
         }
         if (request()->input('action') == 'print') {
             $for_pdf = true;
-            return view('contact.ledger')
+            return view('chequer.payee.ledger')
                 ->with(compact('ledger_details', 'contact','opening_balance_new', 'for_pdf', 'ledger_transactions', 'business_details', 'location_details'))->render();
         }
         $transaction_amounts = ContactLedger::where('contact_id', $id)->distinct('amount')->pluck('amount');
