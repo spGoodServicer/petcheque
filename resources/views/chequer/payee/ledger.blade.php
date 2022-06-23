@@ -5,6 +5,24 @@
 <section class="content-header no-print">
     <h1>{{ __('lang_v1.View Payee ledger') }}</h1>
 </section>
+<style>
+	.bg_color {
+		background: #357ca5;
+		font-size: 20px;
+		color: #fff;
+	}
+	.text-center {
+		text-align: center;
+	}
+	#ledger_table th {
+		background: #357ca5;
+		color: #fff;
+	}
+	#ledger_table > tbody > tr:nth-child(2n+1) > td,
+	#ledger_table > tbody > tr:nth-child(2n+1) > th {
+		background-color: rgba(89, 129, 255, 0.3);
+	}
+</style>
 @php
 	$currency_precision = !empty($business_details->currency_precision) ? $business_details->currency_precision : 2;
 	$total_debit = 0;
