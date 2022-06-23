@@ -1063,7 +1063,7 @@
                     @endif
                     @if($deleted_cheque_details)
                     <li class="{{ $request->segment(1) == 'deleted_cheque_details' && $request->segment(2) == '' ? 'active' : '' }}">
-                        <a href="{{url('deleted_cheque_details')}}"><i class="fa fa-trash"></i>Cancelled Cheque Numbers</a>
+                        <a href="{{url('deleted_cheque_details')}}"><i class="fa fa-trash"></i>Cancelled Cheques</a>
                     </li>
                     @endif
                     @if($printed_cheque_details)

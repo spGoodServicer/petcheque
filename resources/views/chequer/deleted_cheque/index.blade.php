@@ -10,24 +10,49 @@
 
 <!-- Main content -->
 <section class="content">
-    @component('components.widget', ['class' => 'box-primary', 'title' => 'Cancelled Cheque List'])
+    @component('components.widget', ['class' => 'box-primary', 'title' => 'List Cancelled Cheques'])
 
       @slot('tool')
     <div class="box-tools">
+      
       <div class="row">
-        <div class="col-md-7">
-          {{ Form::open(array('id' => 'filterForm')) }}
-          {!! Form::text('date_range',($defaultVal)? $defaultVal['startDate'].' - '.$defaultVal['endDate']: @date('m/01/Y').' - '.@date('m/t/Y') , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' =>'form-control filter-control', 'id' => 'date_range', 'readonly']); !!}
-          {{ Form::close() }}
-        </div>
-        <div class="col-md-5">
-          <a  class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal"
-              href="#" onclick="return false;" >
-              <i class="fa fa-plus"></i> Cancel Cheque</a>
+        <div class="col-md-12">
+            @component('components.filters', ['title' => __('report.filters')])
+            <div class="col-md-4">
+                <div class="form-group">
+                    {!! Form::label('filter_account_number', __('Account Number') . ':') !!}
+                    {!! Form::select('filter_account_number', $account_numbers, null, ['class' => 'form-control select2 filter','style' => 'width:100%']); !!}
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    {!! Form::label('filter_cheque_number', __('Cheque Number').':') !!}
+                    {!! Form::select('filter_cheque_number', $cheque_number, null, ['class' => 'form-control select2 filter']); !!}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {!! Form::label('filter_date_range', __('report.date_range') . ':') !!}
+                    {!! Form::text('filter_date_range',($defaultVal)? $defaultVal['startDate'].' - '.$defaultVal['endDate']: @date('m/01/Y').' - '.@date('m/t/Y') , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' =>'form-control filter', 'id' => 'date_range', 'readonly']); !!}
+                </div>
+            </div>
+            @endcomponent
         </div>
       </div>
     </div>
     @endslot
+    <div class="row">
+      <div class="col-md-7">
+        {{ Form::open(array('id' => 'filterForm')) }}
+        
+        {{ Form::close() }}
+      </div>
+      <div class="col-md-5">
+        <a  class="btn btn-block btn-primary" data-toggle="modal" data-target="#myModal"
+            href="#" onclick="return false;" >
+            <i class="fa fa-plus"></i> Cancel Cheque</a>
+      </div>
+    </div>
     <div class="table-responsive">
         <table class="table table-bordered table-striped" id="templates_table">
             <thead>
