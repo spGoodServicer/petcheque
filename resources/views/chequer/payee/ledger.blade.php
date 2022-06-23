@@ -223,9 +223,6 @@
                                     <span><label>Bill Number:</label>{{$data->invoice_no}}</span>
                                 </td>
                                 <td>
-                                    @php
-                                        print_r($data);
-                                    @endphp
                                     {{$data->payment_type}}
                                 </td>
                                 <td>{{$data->location_name}}</td>
