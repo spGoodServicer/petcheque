@@ -223,7 +223,11 @@
                                     <span><label>Bill Number:</label>{{$data->invoice_no}}</span>
                                 </td>
                                 <td>
-                                    {{$data->payment_type}}
+                                    @if($data->payment_type=="balance_payment")
+                                        Balance Payment
+                                    @else
+                                        New Payment
+                                    @endif
                                 </td>
                                 <td>{{$data->location_name}}</td>
                                 <td>
