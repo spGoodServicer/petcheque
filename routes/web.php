@@ -615,6 +615,7 @@ Route::middleware(['IsInstalled', 'auth:customer,web', 'SetSessionData', 'DayEnd
     Route::get('payees', 'Chequer\ManagePayeeController@index')->name('payees.index');
     Route::post('create-payees', 'Chequer\ManagePayeeController@store')->name('payees.create');
     Route::get('ledger/{id?}', 'Chequer\ManagePayeeController@getLedger')->name('payees.ledger');
+    Route::post('ledger/{id?}', 'Chequer\ManagePayeeController@getLedger')->name('payees.ledger');
     Route::get('delete-payees/{id?}', 'Chequer\ManagePayeeController@destroy')->name('payees.delete');
     Route::post('printed_cheque_details', 'Chequer\ChequeNumberController@printedcheque');
     Route::get('printed_cheque_details', 'Chequer\ChequeNumberController@printedcheque');
