@@ -205,6 +205,7 @@ class ManagePayeeController extends Controller
             and date(`cl`.`operation_date`) >= '" . $start_date . "'
             and date(`cl`.`operation_date`) <= '" . $end_date . "'
             order by `cl`.`operation_date` limit 2");
+        dd($opening_balance_new);
         $query = ContactLedger::leftjoin('transactions', 'contact_ledgers.transaction_id', 'transactions.id')
                 ->leftjoin('transaction_payments', 'contact_ledgers.transaction_payment_id', 'transaction_payments.id')
                 ->leftjoin('business_locations', 'transactions.location_id', 'business_locations.id')
