@@ -218,53 +218,18 @@
                                     <td class="row-border">{{@format_date($data->transaction_date)}}</td>
                                 @endif
                                 <td>
-                                    @php
-                                        print_r($data);
-                                    @endphp
-                                    @if($data->is_direct_sale)
-                                            @lang('lang_v1.invoice_sale'): {{$data->invoice_no}}
-                                        @elseif($data->transaction_type == 'sell' && $data->t_sub_type == 'settlement')
-                                            @lang('lang_v1.settlement'): {{$data->ref_no}}
-                                        @elseif($data->transaction_type == 'sell' && $data->type == 'debit')
-                                            @lang('lang_v1.pos_sale'): {{$data->invoice_no}}
-                                        @elseif($data->transaction_type == 'sell' && $data->type == 'credit')
-                                            @lang('lang_v1.payment'): {{$data->invoice_no}}
-                                        @elseif($data->transaction_type == 'sell_return')
-                                            @lang('lang_v1.sell_return'): {{$data->invoice_no}}
-                                        @elseif($data->transaction_type == 'purchase')
-                                            @lang('lang_v1.purchase'): {{$data->ref_no}}
-                                        @elseif($data->transaction_type == 'purchase_return')
-                                            @lang('lang_v1.purchase_return'): {{$data->ref_no}}
-                                        @elseif($data->transaction_type == 'advance_payment')
-                                            @lang('lang_v1.advance_payment'): {{$data->ref_no}}
-                                        @elseif($data->transaction_type == 'refund')
-                                            @lang('lang_v1.refund'): {{$data->ref_no}} <br> <b>@lang('lang_v1.invoice_no')
-                                                : </b>{{ $data->invoice_no}}
-                                        @elseif($data->transaction_type == 'cheque_return')
-                                            @if($data->sub_type == 'cheque_return_charges')
-                                                @lang('lang_v1.cheque_return_charges')<br>
-                                            @else
-                                                @lang('lang_v1.cheque_return')<br>
-                                            @endif
-                                            <b>@lang('lang_v1.invoice_no'): </b>{{ $data->invoice_no}}
-                                            <br> <b>@lang('lang_v1.bank_name'):</b> {{$data->bank_name}} <b>@lang('lang_v1.cheque_no')
-                                                :</b> {{$data->cheque_number}} <b>@lang('lang_v1.cheque_date')
-                                                :</b> {{$data->cheque_date}}
-                                        @endif
-                                        @if(!empty($data->deleted_by))
-                                            <br><b>@lang('lang_v1.deleted')</b>
-                                        @endif
-                
-                                    
+                                    <span><label>PO Number:</label>{{$data->ref_no}}</span>
+                                    <span><label>Bill Number:</label>{{$data->invoice_no}}</span>
                                 </td>
-                                <td>@if($data->transaction_type == 'purchase') @lang('lang_v1.purchase') @elseif($data->transaction_type
-                                    == 'opening_balance') @lang('lang_v1.opening_balance') @elseif($data->transaction_type == 'sell')
-                                        @lang('lang_v1.sell') @elseif($data->transaction_type == 'sell_return') @lang('lang_v1.sell_return')
-                                    @endif</td>
+                                <td>
+                                    {{$data->type}}
+                                </td>
                                 <td>{{$data->location_name}}</td>
-                                <td><span class="label @payment_status($payment_status)">@lang('lang_v1.' . $payment_status) </span>
+                                <td>
+                                    <span class="label @payment_status($payment_status)">@lang('lang_v1.' . $payment_status) </span>
                                 </td>
-                                <td class="ws-nowrap">@if($data->acc_transaction_type == 'debit')
+                                <td class="ws-nowrap">
+                                    @if($data->acc_transaction_type == 'debit')
                                         @php if($data->transaction_type == 'opening_balance') { $opening_total += $amount;$opening_type = 'debit';} @endphp
                 
                 
@@ -303,7 +268,7 @@
                                                         <b>@lang('lang_v1.cheque_number'):</b> {{$transaction_payment->cheque_number}}
                                                         <br>
                                                         <b>@lang('lang_v1.cheque_date')
-                                                            :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                            :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                         <br>
                                                         <b>@lang('lang_v1.account_number')
                                                             :</b> @if(!empty($bank_account)){{$bank_account->account_number}} @endif
@@ -312,7 +277,7 @@
                                                         {{ucfirst($transaction_payment->method)}} <br>
                                                         <b>@lang('lang_v1.cheque_number'):</b> {{$data->cheque_number}} <br>
                                                         <b>@lang('lang_v1.cheque_date')
-                                                            :</b> @if(!empty($data->cheque_date)){{@format_date($data->cheque_date)}} @endif
+                                                            :</b> @if(!empty($data->operation_date)){{@format_date($data->operation_date)}} @endif
                                                         <br>
                                                     @else
                                                         {{ucfirst($transaction_payment->method)}}
