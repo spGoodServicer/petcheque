@@ -223,7 +223,7 @@
                                     <span><label>Bill Number:</label>{{$data->invoice_no}}</span>
                                 </td>
                                 <td>
-                                    {{$data->type}}
+                                    {{$data->payment_type}}
                                 </td>
                                 <td>{{$data->location_name}}</td>
                                 <td>

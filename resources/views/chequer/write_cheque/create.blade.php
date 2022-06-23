@@ -794,6 +794,7 @@ function myFunctionPrint(){
     var payable_amount = $('#payable_amount').val();
     var unpaid = $('#payable_amount').val();
     var paymentFor = $("#payment_for").val();
+    var paymentType = $("#payment_type").val();
     var paid_to_supplier = $('#paid_to_supplier option:selected').val();
     var paid_amounts = $('#mynumber').val();
     if(chequeNo=="")
@@ -851,7 +852,7 @@ function myFunctionPrint(){
                         url: "{{ url('cheque-write') }}",
                         type    : 'POST', 
                         dataType: 'json',
-                        data: {paymentFor:paymentFor,purchse_bill_no:purchse_bill_no,payable_amount:payable_amount,purchase_id:purchase_id,paid_to_supplier:paid_to_supplier,template_id: template_id,cheque_amount: cheque_amount,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date,payee_tempname:payee_tempname,stampvalu:stampvalu,amount_word:amount_word,bankacount:bankacount,acoof:acoof},
+                        data: {paymentType:paymentType,paymentFor:paymentFor,purchse_bill_no:purchse_bill_no,payable_amount:payable_amount,purchase_id:purchase_id,paid_to_supplier:paid_to_supplier,template_id: template_id,cheque_amount: cheque_amount,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date,payee_tempname:payee_tempname,stampvalu:stampvalu,amount_word:amount_word,bankacount:bankacount,acoof:acoof},
                         error: function (jqXHR, exception) {
                             console.log(jqXHR, exception);
                         }
@@ -880,6 +881,7 @@ function myFunctionPrint333(){
     var cheque_no = $('#chequeNo').val();
     var cheque_date = $('#mydate').val();
     var paymentFor = $('#payment_for').val();
+    var paymentType = $("#payment_type").val();
     var payee_tempname=$("#payee_tempname").val();
     var stampvalu=$("#addStamps").val();
     var amount_word=$("#amount_word").val();
@@ -891,7 +893,7 @@ function myFunctionPrint333(){
         url: "{{ url('cheque-write') }}",
         type: 'post',
         dataType: 'json',
-        data: {paymentFor:paymentFor,template_id: template_id,cheque_amount: cheque_amount ,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date,payee_tempname:payee_tempname,stampvalu:stampvalu,amount_word:amount_word,bankacount:bankacount,acoof:acoof},
+        data: {paymentType:paymentType,paymentFor:paymentFor,template_id: template_id,cheque_amount: cheque_amount ,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date,payee_tempname:payee_tempname,stampvalu:stampvalu,amount_word:amount_word,bankacount:bankacount,acoof:acoof},
     }).done(function(data) {
         location.reload();
         var divToPrint=document.getElementById('template');
@@ -911,6 +913,7 @@ function myFunctionPrint1(){
     var paid_to_supplier = $('#paid_to_supplier').val();
     var purchase_id = $('#purchase_id').val();
     var paymentFor = $("#payment_for").val();
+    var paymentType = $("#payment_type").val();
     var payable_amount = $('#payable_amount').val();
     if(unpaid != 0 ){
         if(paid_to_supplier == ""){
@@ -947,7 +950,7 @@ function myFunctionPrint1(){
                         url: "{{ url('cheque-write') }}",
                         type: 'post',
                         dataType: 'json',
-                        data: {paymentFor:paymentFor,payable_amount:payable_amount,purchase_id:purchase_id,paid_to_supplier:paid_to_supplier,template_id: template_id,cheque_amount: cheque_amount ,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date},
+                        data: {paymentType:paymentType,paymentFor:paymentFor,payable_amount:payable_amount,purchase_id:purchase_id,paid_to_supplier:paid_to_supplier,template_id: template_id,cheque_amount: cheque_amount ,payee: payee,cheque_no: cheque_no,cheque_date: cheque_date},
                         success:function(data){
                         },
                         error:function(data){

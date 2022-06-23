@@ -213,6 +213,7 @@ class ChequeWriteController extends Controller
                     $inputs['amount'] = $this->transactionUtil->num_uf($inputs['amount']);
                     $inputs['created_by'] = auth()->user()->id;
                     $inputs['payment_for'] = $request->payee; // we have ignored current system contact/suppplier
+                    $inputs['payment_type'] = $request->paymentType; // we have ignored current system contact/suppplier
 
                     if ($inputs['method'] == 'custom_pay_1') {
                         $inputs['transaction_no'] = $request->transaction_no_1;
