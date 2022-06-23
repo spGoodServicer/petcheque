@@ -573,10 +573,11 @@
 </section>
 <script>
 $(document).ready( function(){
+    $('#ledger_date_range').daterangepicker(dateRangeSettings);
     $('.refresh-data').on('change',function(){
         $('#ledger_form').submit();
     });
-    $('#ledger_date_range').daterangepicker(dateRangeSettings);
+    
 });
 </script>
 @endsection
