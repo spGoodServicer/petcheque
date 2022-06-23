@@ -193,6 +193,7 @@ class ManagePayeeController extends Controller
         // dd($opening_balance);
 
         $ledger_details = $this->__getLedgerDetails($contact_id, $start_date, $end_date);
+        print_r($ledger_details);
             // dd("sup");
         $opening_balance_new = DB::select("select `cl`.`amount` as opening_balance
             from `transactions` t left join `contact_ledgers` cl on `cl`.`transaction_id` = `t`.`id`
