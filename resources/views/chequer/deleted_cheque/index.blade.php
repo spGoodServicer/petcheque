@@ -5,42 +5,36 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>Cancelled Cheque List</h1>
+    <h1>List Cancelled Cheques</h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-    @component('components.widget', ['class' => 'box-primary', 'title' => 'List Cancelled Cheques'])
-
-      @slot('tool')
-    <div class="box-tools">
-      
-      <div class="row">
-        <div class="col-md-12">
-            @component('components.filters', ['title' => __('report.filters')])
-            <div class="col-md-4">
-                <div class="form-group">
-                    {!! Form::label('filter_account_number', __('Account Number') . ':') !!}
-                    {!! Form::select('filter_account_number', $accounts, null, ['class' => 'form-control select2 filter','style' => 'width:100%']); !!}
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="form-group">
-                    {!! Form::label('filter_cheque_number', __('Cheque Number').':') !!}
-                    {!! Form::select('filter_cheque_number', $chequenolists, null, ['class' => 'form-control select2 filter']); !!}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {!! Form::label('filter_date_range', __('report.date_range') . ':') !!}
-                    {!! Form::text('filter_date_range',($defaultVal)? $defaultVal['startDate'].' - '.$defaultVal['endDate']: @date('m/01/Y').' - '.@date('m/t/Y') , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' =>'form-control filter', 'id' => 'date_range', 'readonly']); !!}
-                </div>
-            </div>
-            @endcomponent
-        </div>
+  @component('components.filters', ['title' => __('report.filters')])
+    <div class="row">
+      <div class="col-md-12">
+          
+          <div class="col-md-4">
+              <div class="form-group">
+                  {!! Form::label('filter_account_number', __('Account Number') . ':') !!}
+                  {!! Form::select('filter_account_number', $accounts, null, ['class' => 'form-control select2 filter','style' => 'width:100%']); !!}
+              </div>
+          </div>
+          <div class="col-sm-4">
+              <div class="form-group">
+                  {!! Form::label('filter_cheque_number', __('Cheque Number').':') !!}
+                  {!! Form::select('filter_cheque_number', $chequenolists, null, ['class' => 'form-control select2 filter']); !!}
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  {!! Form::label('filter_date_range', __('report.date_range') . ':') !!}
+                  {!! Form::text('filter_date_range',($defaultVal)? $defaultVal['startDate'].' - '.$defaultVal['endDate']: @date('m/01/Y').' - '.@date('m/t/Y') , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' =>'form-control filter', 'id' => 'date_range', 'readonly']); !!}
+              </div>
+          </div>
+          
       </div>
     </div>
-    @endslot
     <div class="row">
       <div class="col-md-7">
         {{ Form::open(array('id' => 'filterForm')) }}
