@@ -170,7 +170,7 @@ class ManagePayeeController extends Controller
             ->where('account_types.name', 'like', '%Assets%')
             ->where('accounts.business_id', $business_id)
             ->pluck('accounts.id')->toArray();
-        $contact_id = request()->input('contact_id');
+        $contact_id = $id;
         $start_date = request()->start_date;
         $end_date =  request()->end_date;
 
