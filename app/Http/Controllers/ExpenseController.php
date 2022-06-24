@@ -128,7 +128,7 @@ class ExpenseController extends Controller
 
         }
         $business_id = request()->session()->get('user.business_id');
-        $package_manage = Package::where('only_for_business', $business_id)->first();
+        
         // dd($package_smanage);
         if (request()->ajax()) {
             
@@ -183,7 +183,7 @@ class ExpenseController extends Controller
                     'TP.cheque_number',
 
                     'TP.account_id',
-
+                    'transactions.business_id',
                     DB::raw("CONCAT(COALESCE(U.surname, ''),' ',COALESCE(U.first_name, ''),' ',COALESCE(U.last_name,'')) as expense_for"),
 
                     DB::raw("CONCAT(tr.name ,' (', tr.amount ,' )') as tax"),
@@ -435,12 +435,11 @@ class ExpenseController extends Controller
                 })
                 ->editColumn('payment_status', function ($row) {
 
-                    dd($row);
-                    // $packages->default_setting
-                    // if($package_manage->auto_update_payment_status)
-                    //     return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.$this->__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
-                    // else
-                    //     return '';
+                    $package_manage = Package::where('only_for_business', $row->business_id)->first();
+                    if($package_manage->auto_update_payment_status)
+                        return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.$this->__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
+                    else
+                        return '';
 
                 })
                 
