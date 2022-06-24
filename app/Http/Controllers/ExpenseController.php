@@ -131,6 +131,8 @@ class ExpenseController extends Controller
         $package_manage = Package::where('only_for_business', $business_id)->first();
         // dd($package_smanage);
         if (request()->ajax()) {
+            $business_id = request()->session()->get('user.business_id');
+            $package_manage = Package::where('only_for_business', $business_id)->first();
             $expenses = Transaction::leftJoin('expense_categories AS ec', 'transactions.expense_category_id', '=', 'ec.id')
                 ->join(
                     'business_locations AS bl',
