@@ -993,8 +993,6 @@ class PackagesController extends BaseController
                 $packages_details['default_setting'] = $request->default_setting == '1' ? 1 : 0;
                 $packages_details['auto_update_payment_status'] = $request->auto_update_payment_status == '1' ? 1 : 0;
             }
-            print_r($packages_details);
-            exit;
             $packages_details['day_end_enable'] = $request->day_end_enable == '1' ? 1 : 0;
             $business_id = request()->session()->get('user.business_id');
             $business = Business::whereHas('subscriptions', function ($q) use ($id) {
