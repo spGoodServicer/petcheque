@@ -970,7 +970,6 @@ class PackagesController extends BaseController
             /* Cheque Writing Module */
 
             if (empty($request->cheque_write_module)) {
-                echo "ddddddddddddddddddd";
                 $packages_details['cheque_write_module'] = 0;
                 $packages_details['cheque_templates'] = 0;
                 $packages_details['write_cheque'] = 0;
@@ -982,7 +981,7 @@ class PackagesController extends BaseController
                 $packages_details['default_setting'] = 0;
                 $packages_details['auto_update_payment_status'] = 0;
             } else {
-                echo "ssssssssssssssssssssssssss";
+                echo $request->auto_update_payment_status;
                 $packages_details['cheque_write_module'] = 1;
                 $packages_details['cheque_templates'] = $request->cheque_templates == '1' ? 1 : 0;
                 $packages_details['write_cheque'] = $request->write_cheque == '1' ? 1 : 0;
