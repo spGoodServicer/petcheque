@@ -87,7 +87,25 @@ class ExpenseController extends Controller
         ];
 
     }
-
+    private function __payment_status($status){
+        return "<?php if($status == 'partial'){
+            echo 'bg-aqua';
+        }elseif($status == 'due'){
+            echo 'bg-yellow';
+        }elseif ($status == 'paid') {
+            echo 'bg-light-green';
+        }elseif ($status == 'overdue') {
+            echo 'bg-red';
+        }elseif ($status == 'partial-overdue') {
+            echo 'bg-red';
+        }elseif ($status == 'pending') {
+            echo 'bg-info';
+        }elseif ($status == 'over-payment') {
+            echo 'bg-light-green';
+        }elseif ($status == 'price-later') {
+            echo 'bg-orange';
+        }?>";
+    }
 
 
     /**
@@ -418,7 +436,7 @@ class ExpenseController extends Controller
 
                     
                     // $packages->default_setting
-                    return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.AppServiceProvider::payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
+                    return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.AppServiceProvider::__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
 
                 })
                 
