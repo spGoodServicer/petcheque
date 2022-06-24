@@ -434,7 +434,7 @@ class ExpenseController extends Controller
 
                 })
                 ->editColumn('payment_status', function ($row) {
-
+                    
                     $package_manage = Package::where('only_for_business', $row->business_id)->first();
                     
                     if($package_manage->auto_update_payment_status)
