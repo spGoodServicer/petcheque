@@ -1167,6 +1167,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="checkbox">
+                                    <label class="flex-label">
+                                        {!! Form::checkbox('auto_update_payment_status', 1, $packages->auto_update_payment_status, ['class' => 'input-icheck','id'=>'auto_update_payment_status']); !!}
+                                        {{__('Auto update the Payment Status')}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                
+                            </div>
+                            <div class="col-sm-3">
+                                
+                            </div>
+                            <div class="col-sm-3">
+                                
+                            </div>
+                        </div>
                         <hr style="border-width:2px;color:gray;background-color:gray">
                     </div>
                     <div class="clearfix"></div>
