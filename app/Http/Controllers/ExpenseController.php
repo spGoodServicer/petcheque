@@ -131,8 +131,7 @@ class ExpenseController extends Controller
         $package_manage = Package::where('only_for_business', $business_id)->first();
         // dd($package_smanage);
         if (request()->ajax()) {
-            $business_id = request()->session()->get('user.business_id');
-            $package_manage = Package::where('only_for_business', $business_id)->first();
+            
             $expenses = Transaction::leftJoin('expense_categories AS ec', 'transactions.expense_category_id', '=', 'ec.id')
                 ->join(
                     'business_locations AS bl',
@@ -436,12 +435,12 @@ class ExpenseController extends Controller
                 })
                 ->editColumn('payment_status', function ($row) {
 
-                    
+                    dd($row);
                     // $packages->default_setting
-                    if($package_manage->auto_update_payment_status)
-                        return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.$this->__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
-                    else
-                        return '';
+                    // if($package_manage->auto_update_payment_status)
+                    //     return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.$this->__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
+                    // else
+                    //     return '';
 
                 })
                 
