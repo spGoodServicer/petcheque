@@ -589,12 +589,12 @@ class TransactionUtil extends Util
         $c = 0;
         foreach ($payments as $payment) {
             //Check if transaction_sell_lines_id is set.
+            $payment_mehod = $payment['method'];
             if (!empty($payment['payment_id'])) {
                 $edit_ids[] = $payment['payment_id'];
                 $this->editPaymentLine($payment, $transaction, $uf_data);
             } else {
                 $payment_amount = $uf_data ? $this->num_uf($payment['amount']) : $payment['amount'];
-                $payment_mehod = $payment['method'];
                 if ($payment_mehod == 'credit_sale') {
                     $payment_amount = 0;
                 }
@@ -2758,9 +2758,7 @@ class TransactionUtil extends Util
     {
         $total_paid = $this->getTotalPaid($transaction_id);
         if (is_null($final_amount)) {
-            if(Transaction::find($transaction_id))
-                $final_amount = Transaction::find($transaction_id)->final_total;
-            else $final_amount = 0;
+            $final_amount = Transaction::find($transaction_id)->final_total;
         }
         $status = 'due';
         if ($final_amount <= $total_paid) {

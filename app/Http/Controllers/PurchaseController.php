@@ -1120,9 +1120,10 @@ class PurchaseController extends Controller
                     ->whereNotIn('id', $updated_purchase_line_ids)
                     ->delete();
 
+            }
+            
                 //update stock account transactions
                 $this->transactionUtil->updateManageStockAccount($transaction);
-            }
             DB::commit();
 
             $output = [
