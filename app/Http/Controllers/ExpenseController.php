@@ -88,23 +88,23 @@ class ExpenseController extends Controller
 
     }
     private function __payment_status($status){
-        return "<?php if($status == 'partial'){
-            echo 'bg-aqua';
+        if($status == 'partial'){
+            return 'bg-aqua';
         }elseif($status == 'due'){
-            echo 'bg-yellow';
+            return 'bg-yellow';
         }elseif ($status == 'paid') {
-            echo 'bg-light-green';
+            return 'bg-light-green';
         }elseif ($status == 'overdue') {
-            echo 'bg-red';
+            return 'bg-red';
         }elseif ($status == 'partial-overdue') {
-            echo 'bg-red';
+            return 'bg-red';
         }elseif ($status == 'pending') {
-            echo 'bg-info';
+            return 'bg-info';
         }elseif ($status == 'over-payment') {
-            echo 'bg-light-green';
+            return 'bg-light-green';
         }elseif ($status == 'price-later') {
-            echo 'bg-orange';
-        }?>";
+            return 'bg-orange';
+        }
     }
 
 
