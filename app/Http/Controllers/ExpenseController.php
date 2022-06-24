@@ -109,39 +109,22 @@ class ExpenseController extends Controller
             abort(403, 'Unauthorized action.');
 
         }
-
-
-
+        $business_id = request()->session()->get('user.business_id');
+        $package_manage = Package::where('only_for_business', $business_id)->first();
+        print_r($package_manage);
         if (request()->ajax()) {
-
-            $business_id = request()->session()->get('user.business_id');
-
-
-
             $expenses = Transaction::leftJoin('expense_categories AS ec', 'transactions.expense_category_id', '=', 'ec.id')
-
                 ->join(
-
                     'business_locations AS bl',
-
                     'transactions.location_id',
-
                     '=',
-
                     'bl.id'
-
                 )
-
                 ->leftJoin('tax_rates as tr', 'transactions.tax_id', '=', 'tr.id')
-
                 ->leftJoin('users AS U', 'transactions.expense_for', '=', 'U.id')
-
                 ->leftJoin('users AS m', 'transactions.created_by', '=', 'm.id')
-
                 ->leftjoin('transaction_payments AS TP', function ($join) {
-
                     $join->on('transactions.id', 'TP.transaction_id')->where('TP.amount', '!=', 0);
-
                 })
 
                 ->where('transactions.business_id', $business_id)
@@ -431,17 +414,16 @@ class ExpenseController extends Controller
                     return $ref;
 
                 })
+                ->editColumn('payment_status', function ($row) {
 
-                ->editColumn(
+                    
 
-                    'payment_status',
+                    return '<a href="{{ action("TransactionPaymentController@show", [$id])}}" class="view_payment_modal payment-status no-print" data-orig-value="{{$payment_status}}" data-status-name="{{__(\'lang_v1.\' . $payment_status)}}"><span class="label @payment_status($payment_status)">{{__(\'lang_v1.\' . $payment_status)}}
 
-                    '<a href="{{ action("TransactionPaymentController@show", [$id])}}" class="view_payment_modal payment-status no-print" data-orig-value="{{$payment_status}}" data-status-name="{{__(\'lang_v1.\' . $payment_status)}}"><span class="label @payment_status($payment_status)">{{__(\'lang_v1.\' . $payment_status)}}
+                    </span></a><span class="print_section">{{__(\'lang_v1.\' . $payment_status)}}</span>';
 
-                        </span></a><span class="print_section">{{__(\'lang_v1.\' . $payment_status)}}</span>'
-
-                )
-
+                })
+                
                 ->addColumn('payment_due', function ($row) {
 
                     $due = $row->final_total - $row->amount_paid;
