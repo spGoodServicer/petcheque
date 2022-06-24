@@ -979,6 +979,7 @@ class PackagesController extends BaseController
                 $packages_details['deleted_cheque_details'] = 0;
                 $packages_details['printed_cheque_details'] = 0;
                 $packages_details['default_setting'] = 0;
+                $packages_details['auto_update_payment_status'] = 0;
             } else {
                 $packages_details['cheque_write_module'] = 1;
                 $packages_details['cheque_templates'] = $request->cheque_templates == '1' ? 1 : 0;
@@ -988,7 +989,8 @@ class PackagesController extends BaseController
                 $packages_details['cheque_number_list'] = $request->cheque_number_list == '1' ? 1 : 0;
                 $packages_details['deleted_cheque_details'] = $request->deleted_cheque_details == '1' ? 1 : 0;
                 $packages_details['printed_cheque_details'] = $request->printed_cheque_details == '1' ? 1 : 0;
-                $packages_details['default_setting'] = $request->cheque_number_list == '1' ? 1 : 0;
+                $packages_details['default_setting'] = $request->default_setting == '1' ? 1 : 0;
+                $packages_details['auto_update_payment_status'] = $request->auto_update_payment_status == '1' ? 1 : 0;
             }
             $packages_details['day_end_enable'] = $request->day_end_enable == '1' ? 1 : 0;
             $business_id = request()->session()->get('user.business_id');
