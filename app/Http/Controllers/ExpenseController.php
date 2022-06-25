@@ -435,10 +435,10 @@ class ExpenseController extends Controller
 
                 })
                 ->editColumn('payment_status', function ($row) {
-                    $subscription = Subscription::where('business_id', $row->business_id)->first();
+                    $subscription = Subscription::where('business_id', $row->business_id)->where('end_date','>=', date('Y-m-d'))->first();
                     $package_manage = Package::where('id', $subscription->package_id)->first();
                     
-                    if($package_manage->auto_update_payment_status)
+                    if($package_manage && $package_manage->auto_update_payment_status)
                         return '<a href="'.action("TransactionPaymentController@show", [$row->id]).'" class="view_payment_modal payment-status no-print" data-orig-value="'.$row->payment_status.'" data-status-name="'.__('lang_v1.'.$row->payment_status).'"><span class="label '.$this->__payment_status($row->payment_status).'">'.__('lang_v1.' . $row->payment_status).'</span></a><span class="print_section">'.__('lang_v1.' . $row->payment_status).'</span>';
                     else
                         return '';
