@@ -98,9 +98,7 @@
         <select name="asset_type" class="form-control select2" id="asset_type" required>
           <option>@lang('messages.please_select')</option>
           @foreach($account_groups as $account_group)
-            <option value="{{$account_group->id}}"  @if($account_group->account_type_id == $account_type->id) selected @endif
-              >{{$account_group->name}}</option>
-              <option data-show-cheque="{{$account_group->reg_cheque}}"  value="'{{$account_group->id}}" @if($account_group->id == $account->asset_type) selected @endif>{{$account_group->name}}</option>
+            <option data-show-cheque="{{$account_group->reg_cheque}}"  value="'{{$account_group->id}}" @if($account_group->id == $account->asset_type) selected @endif>{{$account_group->name}}</option>
           @endforeach
         </select>
 
