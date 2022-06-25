@@ -1113,9 +1113,9 @@ function temFunction() {
         if($("#mydate").is(":visible") && $("#mydate").val()){
             var date = $("#mydate").val();
             var parts = date.split('-');
-            var day = parts[0];
+            var day = parts[2];
             var month = parts[1];
-            var year = parts[2];
+            var year = parts[0];
 
             var dateParts = day.split('');
 
