@@ -15,6 +15,7 @@ use App\Chequer\ChequerSupplier;
 use App\Chequer\ChequeTemplate;
 use App\Chequer\PrintedChequeDetail;
 use Modules\Superadmin\Entities\Package;
+use Modules\Superadmin\Entities\Subscription;
 use App\Contact;
 use App\Events\TransactionPaymentAdded;
 use Illuminate\Http\Request;
