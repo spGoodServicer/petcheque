@@ -36,6 +36,7 @@ class SuperadminServiceProvider extends ServiceProvider
             $business_id = session()->get('user.business_id');
             $module_util = new \App\Utils\ModuleUtil();
             $is_installed = $module_util->isSuperadminInstalled();
+            print_r($business_id);
             if ($is_installed) {
                 $__subscription = Subscription::active_subscription($business_id);
             } else {
