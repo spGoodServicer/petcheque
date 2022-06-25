@@ -1105,7 +1105,7 @@ class AccountController extends Controller
                 $account_type_query->whereIn('name', ['Assets', 'Liabilities']);
             }
             $account_types = $account_type_query->get();
-            $account_groups = AccountGroup::where('business_id', $business_id)->where('account_type_id', $account->account_type_id)->pluck('name', 'id');
+            $account_groups = AccountGroup::where('business_id', $business_id)->where('account_type_id', $account->account_type_id)->pluck('name', 'id','reg_cheque');
             $selected_account_group = AccountGroup::find($account->asset_type);
             $asset_type_ids = json_encode(AccountType::getAccountTypeIdOfType('Assets', $business_id));
             $balance = AccountTransaction::where('account_id', $id)
