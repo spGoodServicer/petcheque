@@ -68,7 +68,10 @@ class ChequeWriteController extends Controller
         $get_defultvalu = ChequerDefaultSetting::where('business_id', $business_id)->get();
         $get_currency =Currency::orderBy('country','ASC')->get()->toArray();// ChequerCurrency::get();
         $get_bankacount = Account::where('business_id', $business_id)->where('is_need_cheque','Y')->get();
-        $package_manage = Package::where('only_for_business', $business_id)->first();
+        // $package_manage = Package::where('only_for_business', $business_id)->first();
+        $subscription = Subscription::where('business_id', $business_id)->where('end_date','>=', date('Y-m-d'))->first();
+        $package_manage = Package::where('id', $subscription->package_id)->first();
+        dd($package_manage);
         return view('chequer/write_cheque/create')->with(compact(
             'getvoucher',
             'templates',
