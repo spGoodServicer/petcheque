@@ -278,7 +278,7 @@ class ContactController extends Controller
 //            ->where('contacts.is_property', 0)
             ->whereIn('contacts.is_property', [1,0])
             ->where(function($q) {
-                $q->where('contacts.type', 'supplier')
+                $q->where('contacts.type', 'customer')
                   ->orWhere('contacts.type', 'both');
             })
             ->select([
