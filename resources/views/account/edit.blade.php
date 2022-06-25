@@ -54,7 +54,7 @@
             <option value="{{$account_type->id}}"  @if($account->account_type_id == $account_type->id) selected @endif
               >{{$account_type->name}}</option>
             @foreach($account_type->sub_types as $sub_type)
-            <option value="{{$sub_type->id}}" data-show-cheque="{{$sub_type->reg_cheque}}" @if($account->account_type_id == $sub_type->id) selected @endif
+            <option value="{{$sub_type->id}}" @if($account->account_type_id == $sub_type->id) selected @endif
               >{{$sub_type->name}}</option>
             @endforeach
           </optgroup>
@@ -95,8 +95,18 @@
 
       <div class="form-group asset_type">
         {!! Form::label('asset_type', __( 'account.account_group' ) .":") !!}
-        {!! Form::select('asset_type', $account_groups, $account->asset_type, ['placeholder' =>
-        __('messages.please_select'), 'class' => 'form-control']) !!}
+        <select name="asset_type" class="form-control select2" id="asset_type" required>
+          <option>@lang('messages.please_select')</option>
+          @foreach($account_groups as $account_group)
+            <option value="{{$account_group->id}}"  @if($account_group->account_type_id == $account_type->id) selected @endif
+              >{{$account_group->name}}</option>
+              <option data-show-cheque="{{$account_group->reg_cheque}}"  value="'{{$account_group->id}}" @if($account_group->id == $account->asset_type) selected @endif>{{$account_group->name}}</option>
+          @endforeach
+        </select>
+
+
+
+
       </div>
 
       <div id="part_need_cheque" class="form-group form-md-radios" @if($selected_account_group && $selected_account_group->reg_cheque!='Y') style="display: none" @endif>
