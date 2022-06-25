@@ -72,7 +72,7 @@ class ChequeWriteController extends Controller
         // $package_manage = Package::where('only_for_business', $business_id)->first();
         $subscription = Subscription::where('business_id', $business_id)->where('end_date','>=', date('Y-m-d'))->first();
         $package_manage = Package::where('id', $subscription->package_id)->first();
-        dd($package_manage);
+        // dd($package_manage);
         return view('chequer/write_cheque/create')->with(compact(
             'getvoucher',
             'templates',
