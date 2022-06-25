@@ -119,7 +119,7 @@
 
 <script>
     function showHideCheque(){
-        if(  $('#asset_type').val() == '585' &&  $('#account_type_id').val() == '551'){
+        if(  $('#asset_type option:selected').data('show-cheque') == 'Y'){
             $('#part_need_cheque').show();
         }else{
             $('#part_need_cheque').hide();
