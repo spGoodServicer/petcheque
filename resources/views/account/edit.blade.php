@@ -51,10 +51,10 @@
           <option>@lang('messages.please_select')</option>
           @foreach($account_types as $account_type)
           <optgroup label="{{$account_type->name}}">
-            <option value="{{$account_type->id}}" @if($account->account_type_id == $account_type->id) selected @endif
+            <option value="{{$account_type->id}}"  @if($account->account_type_id == $account_type->id) selected @endif
               >{{$account_type->name}}</option>
             @foreach($account_type->sub_types as $sub_type)
-            <option value="{{$sub_type->id}}" @if($account->account_type_id == $sub_type->id) selected @endif
+            <option value="{{$sub_type->id}}" data-show-cheque="{{$sub_type->reg_cheque}}" @if($account->account_type_id == $sub_type->id) selected @endif
               >{{$sub_type->name}}</option>
             @endforeach
           </optgroup>
