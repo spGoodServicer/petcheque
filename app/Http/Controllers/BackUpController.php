@@ -177,8 +177,7 @@ class BackUpController extends Controller
                         'msg' => $e->getMessage()
                     ];
         }
-        print_r($output);
-        // return back()->with('status', $output);
+        return back()->with('status', $output);
     }
 
     /**
