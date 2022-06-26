@@ -116,26 +116,26 @@ class BackUpController extends Controller
             if (!empty($notAllowed)) {
                 return $notAllowed;
             }
-           $result = BackupManager::createBackup();
-           if ($result['f'] === true) {
-                $message = 'Files Backup Taken Successfully';
-                $messages[] = [
-                    'type' => 'success',
-                    'message' => $message
-                ];
-                Log::info($message);
-            } else {
-                if (config('backupmanager.backups.files.enable')) {
-                    $message = 'Files Backup Failed';
-                    $messages[] = [
-                        'type' => 'danger',
-                        'message' => $message
-                    ];
-                    Log::error($message);
-                }
-            }
+        //    $result = BackupManager::createBackup();
+        //    if ($result['f'] === true) {
+        //         $message = 'Files Backup Taken Successfully';
+        //         $messages[] = [
+        //             'type' => 'success',
+        //             'message' => $message
+        //         ];
+        //         Log::info($message);
+        //     } else {
+        //         if (config('backupmanager.backups.files.enable')) {
+        //             $message = 'Files Backup Failed';
+        //             $messages[] = [
+        //                 'type' => 'danger',
+        //                 'message' => $message
+        //             ];
+        //             Log::error($message);
+        //         }
+        //     }
 
-            dd($message);
+        //     dd($message);
             // // log the results
              Log::info("Backpack\BackupManager -- new backup started from admin interface " );
             
