@@ -129,7 +129,7 @@ class BackUpController extends Controller
         //     ->skipLockTables()
         //     ->dumpToFile($path);
 
-
+            dd($result);
             // // log the results
              Log::info("Backpack\BackupManager -- new backup started from admin interface " );
             
