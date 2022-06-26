@@ -125,7 +125,6 @@ class BackUpController extends Controller
     function store(Request $request)
     {
         $uploadedFile = $request->file('backup');
-        dd($uploadedFile);
         $filename = time().$uploadedFile->getClientOriginalName();
         
         
@@ -134,7 +133,7 @@ class BackUpController extends Controller
             $uploadedFile,
             $filename
         );
-        $message = 'Files Backup Taken Successfully';
+        $message = 'Files Backup Upload Successfully';
         $messages[] = ['success' => 1,
             'msg' => __('lang_v1.success')
         ];
