@@ -124,7 +124,22 @@ class BackUpController extends Controller
     }
     function store(Request $request)
     {
-    
-         
+        $uploadedFile = $request->file('file');
+        $filename = time().$uploadedFile->getClientOriginalName();
+        
+        
+        Storage::disk(config('backupmanager.backups.disk'))->putFileAs(
+            config('backupmanager.backups.backup_path').DIRECTORY_SEPARATOR.$filename,
+            $uploadedFile,
+            $filename
+        );
+        $message = 'Files Backup Taken Successfully';
+        $messages[] = ['success' => 1,
+            'msg' => __('lang_v1.success')
+        ];
+        
+            return back()->with('status', $messages);
     }
+         
+    
 }
