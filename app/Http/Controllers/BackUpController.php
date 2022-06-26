@@ -129,7 +129,7 @@ class BackUpController extends Controller
         
         
         Storage::disk(config('backupmanager.backups.disk'))->putFileAs(
-            config('backupmanager.backups.backup_path').DIRECTORY_SEPARATOR.$filename,
+            config('backupmanager.backups.backup_path'),
             $uploadedFile,
             $filename
         );
