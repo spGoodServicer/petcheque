@@ -120,7 +120,7 @@ class BackUpController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $results = BackupManager::deleteBackups(array(file));
-        return redirect()->back();
+        //return redirect()->back();
     }
     function store(Request $request)
     {
