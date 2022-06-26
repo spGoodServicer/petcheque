@@ -116,20 +116,26 @@ class BackUpController extends Controller
             if (!empty($notAllowed)) {
                 return $notAllowed;
             }
-           $result = BackupManager::create();
-        // $path=public_path('uploads').'/'.config('backup.backup.name').'/'.date('Y-m-d h:i') .'.sql';
-        // \Spatie\DbDumper\Databases\MySql::create()
-        //     ->setDbName(env('DB_DATABASE'))
-        //     ->setUserName(env('DB_USERNAME'))
-        //     ->setPassword(env('DB_PASSWORD'))
-        //   // ->doNotCreateTables()
-        //     //->dontSkipComments()
-        //     ->dontUseExtendedInserts()
-        //     ->useSingleTransaction()
-        //     ->skipLockTables()
-        //     ->dumpToFile($path);
+           $result = BackupManager::createBackup();
+           if ($result['f'] === true) {
+                $message = 'Files Backup Taken Successfully';
+                $messages[] = [
+                    'type' => 'success',
+                    'message' => $message
+                ];
+                Log::info($message);
+            } else {
+                if (config('backupmanager.backups.files.enable')) {
+                    $message = 'Files Backup Failed';
+                    $messages[] = [
+                        'type' => 'danger',
+                        'message' => $message
+                    ];
+                    Log::error($message);
+                }
+            }
 
-            dd($result);
+            dd($message);
             // // log the results
              Log::info("Backpack\BackupManager -- new backup started from admin interface " );
             
