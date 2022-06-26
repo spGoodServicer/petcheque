@@ -59,10 +59,10 @@
                             <td>{{ $backup['name'] }}</td>
                             <td>{{ humanFilesize($backup['size_raw']) }}</td>
                             <td>
-                                {{ Carbon::createFromTimestamp($backup['date'])->toDateTimeString() }}
+                                {{ $backup['date'] }}
                             </td>
                             <td>
-                                {{ Carbon::createFromTimestamp($backup['date'])->diffForHumans(Carbon::now()) }}
+                                {{ Carbon::createFromTimestamp(strtotime($backup['date']))->diffForHumans(Carbon::now()) }}
                             </td>
                             <td>
                               <a class="btn btn-xs btn-success"
