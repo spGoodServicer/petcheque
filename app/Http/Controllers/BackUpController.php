@@ -36,55 +36,10 @@ class BackUpController extends Controller
         if (!auth()->user()->can('backup')) {
             abort(403, 'Unauthorized action.');
         }
-       // return config('backup.backup.destination.disks')[0];
-      //  return config('backup.backup.name');
-         $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
-
-        $files = $disk->files(config('backup.backup.name'));
-        
-        //No of Days Auto Delete
         $business_id = request()->session()->get('user.business_id');
         $subscription = Subscription::active_subscription($business_id);
-      //  $packageId=33;
-      if($subscription){
-            $packageId=$subscription->package_id;
-      
-            $Package=Package::find($packageId);
-            if($Package)
-            {
-                $no_of_day= Package::find($packageId)->no_of_day;
-                $date=strtotime(now()->subdays($no_of_day)); 
-                foreach ($files as $k => $f) {
-                      
-                        if($date>$disk->lastModified($f))
-                        {
-                            $this->delete(str_replace(config('backup.backup.name') . '/', '', $f));
-                        }
-                       
-                }
-            }
-      }
-        //End No of Days Auto Delete
-        // $backups = [];
-        //  // make an array of backup files, with their filesize and creation date
-        //  foreach ($files as $k => $f) {
-        //     // only take the zip files into account
-        //                 if (substr($f, -3) == '.gz' && $disk->exists($f)) {
-        //                     $backups[] = [
-        //                         'file_path' => $f,
-        //                         'file_name' => str_replace(config('backup.backup.name') . '/', '', $f),
-        //                         'file_size' => $disk->size($f),
-        //                         'last_modified' => $disk->lastModified($f),
-        //                     ];
-        //                 }
-        //  }
-
-        // // reverse the backups, so the newest one would be on top
-        // $backups = array_reverse($backups);
-
         $cron_job_command = $this->commonUtil->getCronJobCommand();
         $backups = BackupManager::getBackups();
-        print_r($backups);
         return view("backup.index")
             ->with(compact('backups', 'cron_job_command'));
     }
@@ -111,71 +66,27 @@ class BackUpController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        try {
-            //Disable in demo
-            $notAllowed = $this->commonUtil->notAllowedInDemo();
-            if (!empty($notAllowed)) {
-                return $notAllowed;
-            }
-        //    $result = BackupManager::createBackup();
-        //    if ($result['f'] === true) {
-        //         $message = 'Files Backup Taken Successfully';
-        //         $messages[] = [
-        //             'type' => 'success',
-        //             'message' => $message
-        //         ];
-        //         Log::info($message);
-        //     } else {
-        //         if (config('backupmanager.backups.files.enable')) {
-        //             $message = 'Files Backup Failed';
-        //             $messages[] = [
-        //                 'type' => 'danger',
-        //                 'message' => $message
-        //             ];
-        //             Log::error($message);
-        //         }
-        //     }
-
-        //     dd($message);
-            // // log the results
-             Log::info("Backpack\BackupManager -- new backup started from admin interface " );
-            
-            //Manage No of Backup
-             
-            $business_id = request()->session()->get('user.business_id');
-            $subscription = Subscription::active_subscription($business_id);
-            
-            if($subscription){
-                $packageId=$subscription->package_id;
-                $Package=Package::find($packageId);
-                if($Package)
-                {
-                    $no_of_backup=$Package->no_of_backup;
-                    
-                     $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
-        
-                     $files = $disk->files(config('backup.backup.name'));
-                     $i=count($files);
-                    // make an array of backup files, with their filesize and creation date
-                    foreach ($files as $k => $f) {
-                        if($i>$no_of_backup)
-                        {
-                            $this->delete(str_replace(config('backup.backup.name') . '/', '', $f));
-                        }
-                        $i--;
-                    }
-                }
-           }
-            
-            //end No of Backup
-            $output = ['success' => 1,
-                        'msg' => __('lang_v1.success')
-                    ];
-        } catch (Exception $e) {
-            $output = ['success' => 0,
-                        'msg' => $e->getMessage()
-                    ];
+        //Disable in demo
+        $notAllowed = $this->commonUtil->notAllowedInDemo();
+        if (!empty($notAllowed)) {
+            return $notAllowed;
         }
+        $business_id = request()->session()->get('user.business_id');
+        $subscription = Subscription::active_subscription($business_id);
+        
+        if($subscription){}
+        $result = BackupManager::createBackup();
+        $message = 'Files Backup Failed';
+        $messages[] = [
+                    'success' => 0,
+                    'msg' => $message
+                ];
+        if ($result['f'] === true) {
+            $message = 'Files Backup Taken Successfully';
+            $messages[] = ['success' => 1,
+                'msg' => __('lang_v1.success')
+            ];
+        } 
         return back()->with('status', $output);
     }
 
