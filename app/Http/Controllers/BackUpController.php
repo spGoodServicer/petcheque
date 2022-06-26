@@ -125,40 +125,6 @@ class BackUpController extends Controller
     function store(Request $request)
     {
     
-         try {
-            set_time_limit(-1); 
-          
-            $photoName ='up_'.$request->backup->getClientOriginalName();
-    
-            $file= $request->backup->move(public_path('uploads/').config('backup.backup.name'), $photoName);
-            
-             $results = BackupManager::restoreBackups([$photoName]);
-             if ($results[0]['d'] === true) {
-                    $output = ['success' => 1,
-                        'msg' => __('lang_v1.success')
-                ];
-             }
-             else
-             {
-                  $output = ['success' => 0,
-                            'msg' => 'Not Uploaded'
-                        ];
-             }
-            // $sql_dump = File::get($file);
-            // DB::connection()->getPdo()->exec($sql_dump);
-            
-            $results = BackupManager::deleteBackups([$photoName]);
-          
-        
-         } 
-   
-        catch (Exception $e) {
-                $output = ['success' => 0,
-                            'msg' => $e->getMessage()
-                        ];
-        }
-        
-       
-      return back()->with('status', $output);
+         
     }
 }
