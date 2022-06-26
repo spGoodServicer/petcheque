@@ -62,7 +62,7 @@
                                 {{ $backup['date'] }}
                             </td>
                             <td>
-                                {{ Carbon::createFromTimestamp(strtotime($backup['date']))->diffForHumans(Carbon::.()) }}
+                                {{ Carbon::createFromTimestamp(strtotime($backup['date']))->diffForHumans(Carbon::now()) }}
                             </td>
                             <td>
                               <a class="btn btn-xs btn-success"
