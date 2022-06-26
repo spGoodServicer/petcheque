@@ -141,6 +141,7 @@ class BackUpController extends Controller
             if($subscription){
                 $packageId=$subscription->package_id;
                 $Package=Package::find($packageId);
+                dd($Package);
                 if($Package)
                 {
                     $no_of_backup=$Package->no_of_backup;
