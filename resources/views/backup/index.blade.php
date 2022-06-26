@@ -56,20 +56,20 @@
                     <tbody>
                     @foreach($backups as $backup)
                         <tr>
-                            <td>{{ $backup['file_name'] }}</td>
-                            <td>{{ humanFilesize($backup['file_size']) }}</td>
+                            <td>{{ $backup['name'] }}</td>
+                            <td>{{ humanFilesize($backup['size_raw']) }}</td>
                             <td>
-                                {{ Carbon::createFromTimestamp($backup['last_modified'])->toDateTimeString() }}
+                                {{ Carbon::createFromTimestamp($backup['date'])->toDateTimeString() }}
                             </td>
                             <td>
-                                {{ Carbon::createFromTimestamp($backup['last_modified'])->diffForHumans(Carbon::now()) }}
+                                {{ Carbon::createFromTimestamp($backup['date'])->diffForHumans(Carbon::now()) }}
                             </td>
                             <td>
                               <a class="btn btn-xs btn-success"
-                                   href="{{action('BackUpController@download', [$backup['file_name']])}}"><i
+                                   href="{{action('BackUpController@download', [$backup['name']])}}"><i
                                         class="fa fa-cloud-download"></i> @lang('lang_v1.download')</a>
                                 <a class="btn btn-xs btn-danger link_confirmation" data-button-type="delete"
-                                   href="{{action('BackUpController@delete', [$backup['file_name']])}}"><i class="fa fa-trash-o"></i>
+                                   href="{{action('BackUpController@delete', [$backup['name']])}}"><i class="fa fa-trash-o"></i>
                                     @lang('messages.delete')</a>
                             </td>
                         </tr>
