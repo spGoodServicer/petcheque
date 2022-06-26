@@ -116,7 +116,7 @@ class BackUpController extends Controller
             if (!empty($notAllowed)) {
                 return $notAllowed;
             }
-           $result = BackupManager::createBackup();
+           $result = BackupManager::create();
         // $path=public_path('uploads').'/'.config('backup.backup.name').'/'.date('Y-m-d h:i') .'.sql';
         // \Spatie\DbDumper\Databases\MySql::create()
         //     ->setDbName(env('DB_DATABASE'))
