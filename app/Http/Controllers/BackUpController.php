@@ -141,7 +141,6 @@ class BackUpController extends Controller
             if($subscription){
                 $packageId=$subscription->package_id;
                 $Package=Package::find($packageId);
-                dd($Package);
                 if($Package)
                 {
                     $no_of_backup=$Package->no_of_backup;
@@ -152,7 +151,7 @@ class BackUpController extends Controller
                      $i=count($files);
                     // make an array of backup files, with their filesize and creation date
                     foreach ($files as $k => $f) {
-                      
+                        print_r($f);
                         if($i>$no_of_backup)
                         {
                             $this->delete(str_replace(config('backup.backup.name') . '/', '', $f));
