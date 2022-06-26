@@ -137,11 +137,10 @@ class BackUpController extends Controller
              
             $business_id = request()->session()->get('user.business_id');
             $subscription = Subscription::active_subscription($business_id);
-            dd($subscription);
-           if($subscription){
+            
+            if($subscription){
                 $packageId=$subscription->package_id;
                 $Package=Package::find($packageId);
-                dd($Package);
                 if($Package)
                 {
                     $no_of_backup=$Package->no_of_backup;
