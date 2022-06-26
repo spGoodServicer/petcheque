@@ -119,8 +119,8 @@ class BackUpController extends Controller
         if (!auth()->user()->can('backup')) {
             abort(403, 'Unauthorized action.');
         }
-        $results = BackupManager::deleteBackups(array(file));
-        //return redirect()->back();
+        $results = BackupManager::deleteBackups(array($file));
+        return redirect()->back();
     }
     function store(Request $request)
     {
