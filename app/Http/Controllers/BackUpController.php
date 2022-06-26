@@ -125,6 +125,7 @@ class BackUpController extends Controller
     function store(Request $request)
     {
         $uploadedFile = $request->file('file');
+        dd($uploadedFile);
         $filename = time().$uploadedFile->getClientOriginalName();
         
         
