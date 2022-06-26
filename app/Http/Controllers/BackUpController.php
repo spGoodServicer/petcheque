@@ -84,6 +84,7 @@ class BackUpController extends Controller
 
         $cron_job_command = $this->commonUtil->getCronJobCommand();
         $backups = BackupManager::getBackups();
+        print_r($backups);
         return view("backup.index")
             ->with(compact('backups', 'cron_job_command'));
     }
@@ -157,7 +158,6 @@ class BackUpController extends Controller
                      $i=count($files);
                     // make an array of backup files, with their filesize and creation date
                     foreach ($files as $k => $f) {
-                        print_r($f);
                         if($i>$no_of_backup)
                         {
                             $this->delete(str_replace(config('backup.backup.name') . '/', '', $f));
