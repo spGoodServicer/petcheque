@@ -271,6 +271,6 @@ class BackUpController extends Controller
         }
         
        
-      return back()->with('status', $output);
+      //return back()->with('status', $output);
     }
 }
