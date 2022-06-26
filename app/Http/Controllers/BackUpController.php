@@ -95,7 +95,7 @@ class BackUpController extends Controller
      *
      * TODO: make it work no matter the flysystem driver (S3 Bucket, etc).
      */
-    public function download($file_name)
+    public function download($file)
     {
         if (!auth()->user()->can('backup')) {
             abort(403, 'Unauthorized action.');
