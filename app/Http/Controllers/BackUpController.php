@@ -137,8 +137,7 @@ class BackUpController extends Controller
         $messages[] = ['success' => 1,
             'msg' => __('lang_v1.success')
         ];
-        
-            return back()->with('status', $messages);
+        return back()->with('status', $messages);
     }
          
     
