@@ -142,6 +142,7 @@ class BackUpController extends Controller
                 $Package=Package::find($packageId);
                 if($Package)
                 {
+                    echo "dddddddddd";
                     $no_of_backup=$Package->no_of_backup;
                     
                      $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
