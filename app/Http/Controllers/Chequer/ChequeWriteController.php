@@ -9,6 +9,7 @@ use App\Chequer\ChequerBankAccount;
 use App\Chequer\ChequerCurrency;
 use App\Chequer\ChequerDefaultSetting;
 use App\Chequer\ChequerPurchaseOrder;
+use App\Chequer\CancelCheque;
 use App\AccountTransaction;
 use App\Chequer\ChequerStamp;
 use App\Chequer\ChequerSupplier;
