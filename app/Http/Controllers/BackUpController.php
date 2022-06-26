@@ -65,25 +65,25 @@ class BackUpController extends Controller
             }
       }
         //End No of Days Auto Delete
-        $backups = [];
-         // make an array of backup files, with their filesize and creation date
-         foreach ($files as $k => $f) {
-            // only take the zip files into account
-                        if (substr($f, -3) == '.gz' && $disk->exists($f)) {
-                            $backups[] = [
-                                'file_path' => $f,
-                                'file_name' => str_replace(config('backup.backup.name') . '/', '', $f),
-                                'file_size' => $disk->size($f),
-                                'last_modified' => $disk->lastModified($f),
-                            ];
-                        }
-         }
+        // $backups = [];
+        //  // make an array of backup files, with their filesize and creation date
+        //  foreach ($files as $k => $f) {
+        //     // only take the zip files into account
+        //                 if (substr($f, -3) == '.gz' && $disk->exists($f)) {
+        //                     $backups[] = [
+        //                         'file_path' => $f,
+        //                         'file_name' => str_replace(config('backup.backup.name') . '/', '', $f),
+        //                         'file_size' => $disk->size($f),
+        //                         'last_modified' => $disk->lastModified($f),
+        //                     ];
+        //                 }
+        //  }
 
-        // reverse the backups, so the newest one would be on top
-        $backups = array_reverse($backups);
+        // // reverse the backups, so the newest one would be on top
+        // $backups = array_reverse($backups);
 
         $cron_job_command = $this->commonUtil->getCronJobCommand();
-
+        $backups = BackupManager::getBackups();
         return view("backup.index")
             ->with(compact('backups', 'cron_job_command'));
     }
