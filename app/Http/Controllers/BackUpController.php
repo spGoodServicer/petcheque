@@ -125,6 +125,7 @@ class BackUpController extends Controller
                 ];
                 Log::info($message);
             } else {
+                dd(config('backupmanager.backups.files.enable'));
                 if (config('backupmanager.backups.files.enable')) {
                     $message = 'Files Backup Failed';
                     $messages[] = [
