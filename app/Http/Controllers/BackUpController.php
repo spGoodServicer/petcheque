@@ -114,27 +114,13 @@ class BackUpController extends Controller
     /**
      * Deletes a backup file.
      */
-    public function delete($file_name)
+    public function delete($file)
     {
         if (!auth()->user()->can('backup')) {
             abort(403, 'Unauthorized action.');
         }
-
-        //Disable in demo
-        if (config('app.env') == 'demo') {
-            $output = ['success' => 0,
-                            'msg' => 'Feature disabled in demo!!'
-                        ];
-            return back()->with('status', $output);
-        }
-
-        $disk = Storage::disk(config('backup.backup.destination.disks')[0]);
-        if ($disk->exists(config('backup.backup.name') . '/' . $file_name)) {
-            $disk->delete(config('backup.backup.name') . '/' . $file_name);
-            return redirect()->back();
-        } else {
-            abort(404, "The backup file doesn't exist.");
-        }
+        $results = BackupManager::deleteBackups(array(file));
+        return redirect()->back();
     }
     function store(Request $request)
     {
