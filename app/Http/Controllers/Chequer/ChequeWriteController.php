@@ -246,34 +246,29 @@ class ChequeWriteController extends Controller
 
                     $inputs['business_id'] = $request->session()->get('business.id');
                     $inputs['document'] = $this->transactionUtil->uploadFile($request, 'document', 'documents');
-
-                    $tp = TransactionPayment::create($inputs);
-                    AccountTransaction::updateAccountTransaction($tp, $transaction->type);
-                    if($request->paymentFor=='purchases'){
-                        $accountPayable = Account::where('account_number','201')->first();
-                        if($accountPayable){
-                            $ob_transaction_data = [
-                                'amount' => $this->transactionUtil->num_uf($inputs['amount']),
-                                'account_id' => $accountPayable->id,
-                                'type' => 'debit',
-                                'sub_type' => 'ledger_show',
-                                'operation_date' => \Carbon::now(),
-                                'created_by' => Auth::user()->id
-                            ];
-                            AccountTransaction::createAccountTransaction($ob_transaction_data);
-                        }
-                    }else{
-                        // $ob_transaction_data = [
-                        //     'amount' => $this->transactionUtil->num_uf($inputs['amount']),
-                        //     'account_id' => $accountInfo->id,
-                        //     'type' => 'credit',
-                        //     'sub_type' => 'ledger_show',
-                        //     'operation_date' => \Carbon::now(),
-                        //     'created_by' => Auth::user()->id
-                        // ];
-                        // AccountTransaction::createAccountTransaction($ob_transaction_data);
-                    }
                     
+                    $subscription = Subscription::active_subscription($request->session()->get('user.business_id'));
+                    if($subscription){
+                        $package_manage = Package::find($subscription->package_id);
+                        if($package_manage->auto_update_payment_status==1){
+                            $tp = TransactionPayment::create($inputs);
+                            AccountTransaction::updateAccountTransaction($tp, $transaction->type);
+                            if($request->paymentFor=='purchases'){
+                                $accountPayable = Account::where('account_number','201')->first();
+                                if($accountPayable){
+                                    $ob_transaction_data = [
+                                        'amount' => $this->transactionUtil->num_uf($inputs['amount']),
+                                        'account_id' => $accountPayable->id,
+                                        'type' => 'debit',
+                                        'sub_type' => 'ledger_show',
+                                        'operation_date' => \Carbon::now(),
+                                        'created_by' => Auth::user()->id
+                                    ];
+                                    AccountTransaction::createAccountTransaction($ob_transaction_data);
+                                }
+                            }       
+                        }
+                    }
                     
                     //update payment status
                     $this->transactionUtil->updatePaymentStatus($transaction_id, $transaction->final_total);
