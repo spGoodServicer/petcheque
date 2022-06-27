@@ -266,15 +266,13 @@ class ChequeWriteController extends Controller
                                     ];
                                     AccountTransaction::createAccountTransaction($ob_transaction_data);
                                 }
-                            }       
+                            }
+                            //update payment status
+                            $this->transactionUtil->updatePaymentStatus($transaction_id, $transaction->final_total);
+                            $inputs['transaction_type'] = $transaction->type;
+                            event(new TransactionPaymentAdded($tp, $inputs));       
                         }
-                        //update payment status
-                        $this->transactionUtil->updatePaymentStatus($transaction_id, $transaction->final_total);
-                        $inputs['transaction_type'] = $transaction->type;
-                        event(new TransactionPaymentAdded($tp, $inputs));
                     }
-                    
-                    
                     DB::commit();
                 }
 
