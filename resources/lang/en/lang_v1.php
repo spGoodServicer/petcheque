@@ -5,6 +5,7 @@ return [
     'security_deposit_liability_account' => 'Security Deposit - Liability Account',
     'payment_account' => 'Payment Account',
     "account_type" => 'Account Type',
+    "show_in_bal_sheet"=>'Show In Bal Sheet',
 	"customer_interest_list" => 'Customer Interest',
     "customer_interest_list" => 'Customer Interest',
     "interest_settings" => "Interest Settings",
