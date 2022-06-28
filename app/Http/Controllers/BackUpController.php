@@ -76,13 +76,13 @@ class BackUpController extends Controller
         
         if($subscription){}
         $result = BackupManager::createBackup();
-        $message = 'Files Backup Failed';
+        $message = 'Database Backup Failed';
         $messages[] = [
                     'success' => 0,
                     'msg' => $message
                 ];
-        if ($result['f'] === true) {
-            $message = 'Files Backup Taken Successfully';
+        if ($result['d'] === true) {
+            $message = 'Database Backup Taken Successfully';
             $messages[] = ['success' => 1,
                 'msg' => __('lang_v1.success')
             ];
@@ -125,14 +125,13 @@ class BackUpController extends Controller
     function store(Request $request)
     {
         $uploadedFile = $request->file('backup');
-        $filename = time().$uploadedFile->getClientOriginalName();
-        
-        
+        $filename = 'd_'.time().'_'.$uploadedFile->getClientOriginalName();
         Storage::disk(config('backupmanager.backups.disk'))->putFileAs(
             config('backupmanager.backups.backup_path'),
             $uploadedFile,
             $filename
         );
+        $results = BackupManager::restoreBackups([$filename]);
         $message = 'Files Backup Upload Successfully';
         $messages[] = ['success' => 1,
             'msg' => __('lang_v1.success')
